@@ -1,2 +1,2 @@
 # ACCESO_A_DATOS
-Repositorio de la signatura "Acceso a datos"
+Repositorio de la asignatura "Acceso a datos"
