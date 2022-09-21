@@ -26,7 +26,7 @@ public class E02_12 {
 			// Creo una lista filtrandola por el valor de args[1]
 			File[] lista = directorio.listFiles(new FilenameFilter() {
 				@Override
-				public boolean accept(File f, String name) {
+				public boolean accept(File file, String name) {
 					// TODO Auto-generated method stub
 					if (name.endsWith(args[1])) {
 						return true;
