@@ -19,17 +19,18 @@ public class E02_05 {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		BufferedReader br= new BufferedReader(new FileReader(args[0]));
+		BufferedReader br= new BufferedReader(new FileReader("Ficheros\\"+args[0]+".txt"));
 		String linea;
 		ArrayList<String>lista=new ArrayList<String>();
 		while((linea=br.readLine())!=null) {
 			lista.add(linea);
 		}br.close();
 		Collections.sort(lista);
-		
-		BufferedWriter bw= new BufferedWriter(new FileWriter(args[0]+"_sort"));
+				
+		BufferedWriter bw= new BufferedWriter(new FileWriter("Ficheros\\"+args[0]+"_sort.txt"));
 		for (String string : lista) {
 			bw.write(string);
+			bw.newLine();
 		}bw.close();
 	}
 
