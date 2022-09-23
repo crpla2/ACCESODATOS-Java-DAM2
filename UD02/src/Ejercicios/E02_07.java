@@ -34,21 +34,25 @@ public class E02_07 {
 			System.err.println("Error de escritura");
 		}
 
-		DataInputStream dos;
+		DataInputStream dis;
 		try {
-			dos = new DataInputStream(new FileInputStream(f));
-
+			dis = new DataInputStream(new FileInputStream(f));
+			int uno = 0,two = 0,tres = 0,cuatro = 0,cinco = 0;
+			System.out.println("NÚMEROS:\n=======");
 			try {
 				while (true) {
-					System.out.println(dos.readInt());
-					if(dos.readInt()==1);
-					if(dos.readInt()==2);
-					if(dos.readInt()==3);
-					if(dos.readInt()==4);
-					if(dos.readInt()==5);
+					num=dis.readInt();
+					System.out.print(num+"-");
+					if(num==1)uno++;
+					if(num==2)two++;
+					if(num==3)tres++;
+					if(num==4)cuatro++;
+					if(num==5)cinco++;
 				}
-			} catch (EOFException e) {
-			}
+			} catch (EOFException e) {}
+			dis.close();
+			System.out.println("\n\nNÚMERO DE REPETICIONES:\n======================");
+			System.out.println("1: "+uno+" rep, 2: "+two+" rep, 3: "+tres+" rep, 4: "+cuatro+" rep, 5: "+cinco+" rep.");
 
 		} catch (FileNotFoundException e) {
 			System.err.println("Error de lectura");
