@@ -18,9 +18,13 @@ public class E02_09 {
 	 * previamente se advertirá de la situación. - Antes de finalizar el código
 	 * visualizar de manera secuencial todos los registros del fichero para
 	 * comprobar la operación.
-	 * 
-	 * Id (entero – 4 bytes) Nombre (20 caracteres – 40 bytes) Departamento (entero
-	 * – 4 bytes) Antigüedad (real – 8bytes)
+	 * ==================================
+	 * Id 			  (entero – 4 bytes)*
+	 * Nombre (20 caracteres – 40 bytes)*
+	 * Departamento    (entero– 4 bytes)*
+	 * Antigüedad 		(real – 8 bytes)*
+	 *===================================
+	 *					 Total(56 bytes)*
 	 */
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
@@ -30,38 +34,38 @@ public class E02_09 {
 		try {
 			RandomAccessFile file = new RandomAccessFile(f, "rw");
 			int id = s.nextInt();
-			int pos = (id - 1) * 56;
-			if (pos > f.length() - 56) {
+			int pos = (id - 1) * 56;//formula para calcular la posición
+			if ((pos > f.length() - 56)||(id<1)){//calculo la posición del último registro si "pos" es superior estoy fuera
 				System.err.println("No existe un profesor con ese ID");
 				System.exit(-1);
 			}
 			file.seek(pos);
-			if (file.readInt() == 0) {
-				System.err.println("El profesor ya ha sido borrado");
-				System.exit(-1);
+			if (file.readInt() == 0) {//leo el ID (avanza una posicion)
+				System.err.println("El profesor con ese ID ya ha sido borrado\n");
 			}
-			file.writeInt(0);
-			
+			else{
+				file.seek(file.getFilePointer()-1);//retrocedo una posicion para situarme en el ID de nuevo
+				file.writeInt(0); //borro el ID
+			}
 			int dept;
 			double anti;
 			char profes[]=new char[20];
+			file.seek(0);//me coloco al pricipio del todo
 			System.out.println("ID\tNombre\t\tDeparatmento\tAntiguedad");
-			file.seek(0);
-			id=file.readInt();
-			for (int i = 0; i <profes.length ; i++) {
-				profes[i]=file.readChar();
+			for (int j = 0; j < file.length()/56; j++) {
+				id=file.readInt();
+				for (int i = 0; i <profes.length ; i++) {//recojo los 20 caracteres en un array
+					profes[i]=file.readChar();
+				}
+				dept=file.readInt();
+				anti=file.readDouble();
+				String Profe=new String(profes);//paso el array a String para imprimirlo
+				System.out.println(id+"\t"+Profe+"\t"+dept+"\t"+anti);
 			}
-			String Profe=new String(profes);
-			dept=file.readInt();
-			anti=file.readDouble();
-			
-			System.out.println(id+"\t"+Profe+"\t\t"+dept+"\t"+anti);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("no se encuentra el archivo");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("ERROR IOException");
 		}
 	}
 
