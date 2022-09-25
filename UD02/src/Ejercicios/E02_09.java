@@ -18,50 +18,68 @@ public class E02_09 {
 	 * previamente se advertirá de la situación. - Antes de finalizar el código
 	 * visualizar de manera secuencial todos los registros del fichero para
 	 * comprobar la operación.
-	 * ==================================
-	 * Id 			  (entero – 4 bytes)*
-	 * Nombre (20 caracteres – 40 bytes)*
-	 * Departamento    (entero– 4 bytes)*
-	 * Antigüedad 		(real – 8 bytes)*
-	 *===================================
-	 *					 Total(56 bytes)*
+	 *  ==================================*
+	 *               Id (entero – 4 bytes)* 
+	 *   Nombre (20 caracteres – 40 bytes)* 
+	 *    Departamento 1 (entero– 4 bytes)*
+	 *         Antigüedad (real – 8 bytes)* 
+	 * ===================================*
+	 *                     Total(56 bytes)*
 	 */
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
+		RandomAccessFile file;
 		File f = new File("Ficheros/ProfesFPSierraGuara.dat");
+		String Profe,respuesta;
+		char profes[] = new char[20];// Array para guardar el nombre del profesor
+		int id,posicion,departamento;
+		double antiguedad;
+		
 		System.out.println("Introduzca el id del profesor:");
 
 		try {
-			RandomAccessFile file = new RandomAccessFile(f, "rw");
-			int id = s.nextInt();
-			int pos = (id - 1) * 56;//formula para calcular la posición
-			if ((pos > f.length() - 56)||(id<1)){//calculo la posición del último registro si "pos" es superior estoy fuera
+			file = new RandomAccessFile(f, "rw");
+			id = s.nextInt();
+			posicion = (id - 1) * 56;// formula para calcular la posición
+			if ((posicion > f.length() - 56) || (id < 1)) {// calculo la posición del último registro si "pos" es superior
+														// estoy fuera
 				System.err.println("No existe un profesor con ese ID");
 				System.exit(-1);
 			}
-			file.seek(pos);
-			if (file.readInt() == 0) {//leo el ID (avanza una posicion)
+			file.seek(posicion);
+			if (file.readInt() == 0) {// leo el ID (avanza una posicion)
 				System.err.println("El profesor con ese ID ya ha sido borrado\n");
 			}
-			else{
-				file.seek(file.getFilePointer()-1);//retrocedo una posicion para situarme en el ID de nuevo
-				file.writeInt(0); //borro el ID
-			}
-			int dept;
-			double anti;
-			char profes[]=new char[20];
-			file.seek(0);//me coloco al pricipio del todo
-			System.out.println("ID\tNombre\t\tDeparatmento\tAntiguedad");
-			for (int j = 0; j < file.length()/56; j++) {
-				id=file.readInt();
-				for (int i = 0; i <profes.length ; i++) {//recojo los 20 caracteres en un array
-					profes[i]=file.readChar();
+//"[C@14991ad
+// [C@14991ad
+			else {
+				file.seek(posicion+4);
+				for (int i = 0; i < profes.length; i++) {// recojo los 20 caracteresdelnombre en un array
+					profes[i] = file.readChar();
 				}
-				dept=file.readInt();
-				anti=file.readDouble();
-				String Profe=new String(profes);//paso el array a String para imprimirlo
-				System.out.println(id+"\t"+Profe+"\t"+dept+"\t"+anti);
+				Profe = new String(profes);
+				
+				System.out.println("Esta  seguro que desea borrar a \"" + Profe + "\"? y/n");
+				respuesta = s.next();
+				if(respuesta.equalsIgnoreCase("y")) {
+				file.seek(file.getFilePointer() - 44);// retrocedo una posicion para situarme en el ID de nuevo
+				file.writeInt(0); // borro el ID
+				}else System.exit(-1);
 			}
+			file.seek(0);// me coloco al pricipio del todo
+			System.out.println("ID\tNombre\t\tDeparatmento\tAntiguedad");
+			for (int j = 0; j < file.length() / 56; j++) {
+				id = file.readInt();
+				for (int i = 0; i < profes.length; i++) {// recojo los 20 caracteres en un array
+					profes[i] = file.readChar();
+				}
+				departamento = file.readInt();
+				antiguedad = file.readDouble();
+				Profe = new String(profes);// paso el array a String para imprimirlo
+				System.out.println(id + "   " + Profe + "\t" + departamento + "\t" + antiguedad);
+			}
+			file.close();
+			s.close();
 		} catch (FileNotFoundException e) {
 			System.err.println("no se encuentra el archivo");
 		} catch (IOException e) {
