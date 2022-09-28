@@ -7,7 +7,11 @@ import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-
+/*
+ * UD2.10 Crea un paquete de nombre UD2_10 e incluye en él todas las clases necesarias para
+construir el siguiente documento XML. Incluye otra clase que recorra el documento XML creado
+y visualice sus datos por la consola.
+ */
 public class EscritorXML {
 
 	public static void main(String[] args) {
@@ -28,14 +32,19 @@ public class EscritorXML {
 			p3.setTitulo("El señor de los anillos: El retorno del Rey");
 			p3.setAnyo(2003);
 			p3.setDescripcion("Trata sobre la última parte del viaje que emprendieron los nueve compañeros (de los cuales quedan solamente ocho) para salvar a la Tierra Media de la oscuridad impuesta por Sauron. En esta parte se decide el destino de todos los habitantes de estas tierras.");
+		
 		lista.add(p1);lista.add(p2);lista.add(p3);
 		
-		XStream xs=new XStream(new DomDriver("UTF-8"));
+		System.out.println("Escribiendo el archivo...");
+		try {
+			XStream xs=new XStream(new DomDriver("UTF-8"));
 			xs.alias("Peliculas", List.class);
 			xs.alias("Pelicula", Pelicula.class);
-		try {
 			xs.toXML(lista, new FileOutputStream("Ficheros/pelis.xml"));
-		} catch (FileNotFoundException e) {e.printStackTrace();}
+			System.out.println("Terminado correctamente.");
+		}catch (FileNotFoundException e) {
+			System.err.println("Error de escritura");
+		}
 	
 	}
 
