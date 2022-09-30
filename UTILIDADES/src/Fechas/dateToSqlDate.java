@@ -1,10 +1,10 @@
-package Utilidades;
+package Fechas;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
- * Clase que implementa un método estático para convertir una fecha pasada como
+ * Clase que implementa un mï¿½todo estï¿½tico para convertir una fecha pasada como
  * String en un java.sql.Date para su utilizacon en motores SQL.
  * 
  * @author Carlos Rodrigo Pla
@@ -14,8 +14,8 @@ import java.text.SimpleDateFormat;
 public class dateToSqlDate {
 	/**
 	 * Metodo que recibe un String, lo formatea y transforma en un java.util.Date y
-	 * devuelve un java.sql.Date. En caso de no recibir un formato válido para la
-	 * transformación devuelve un error.
+	 * devuelve un java.sql.Date. En caso de no recibir un formato vï¿½lido para la
+	 * transformaciï¿½n devuelve un error.
 	 * 
 	 * @param fecha String con formato "yyyy/MM/dd"
 	 * @return java.sql.Date

@@ -1,13 +1,13 @@
-package Utilidades;
+package Numeros;
 /**
- * Clase que implementa un método estático para comprobar si un String 
- * pasado por parámetro es un número real.
+ * Clase que implementa un mï¿½todo estï¿½tico para comprobar si un String 
+ * pasado por parï¿½metro es un nï¿½mero real.
  * @author Carlos Rodrigo Pla
  *
  */
 public class esReal {
 	/**
-	 * Metodo que devuelve verdadero en caso de que el parametro sea un número
+	 * Metodo que devuelve verdadero en caso de que el parametro sea un nï¿½mero
 	 * entero y falso encaso de que no lo sea.
 	 * @param numero de tipo String.
 	 * @return booleano.

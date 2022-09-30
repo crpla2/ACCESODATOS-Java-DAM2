@@ -1,4 +1,4 @@
-package Utilidades;
+package Otros;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 
 public class JSON {//acordarse de llevar la librería GSON para que funcione
+	
 	public static boolean exportarjSON(List lista,String ruta) {
 		FileWriter fw;
 		try {

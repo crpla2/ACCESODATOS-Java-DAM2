@@ -1,4 +1,4 @@
-package Utilidades;
+package Otros;
 
 // MyInput.java: Contain the methods for reading int, double, and
 // string values from the keyboard

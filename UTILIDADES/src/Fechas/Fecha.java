@@ -1,10 +1,12 @@
-package Utilidades;
+package Fechas;
+
+import Otros.MyInput;
 
 // Fecha.java: Manejo de fechas
 
 /**
  * Clase para el tratamiento de fechas.
- * @author  Luis Hernández
+ * @author  Luis Hernï¿½ndez
  * @version 1.0
  */
 public class Fecha {
@@ -25,10 +27,10 @@ public class Fecha {
     _anio = a;
     valida();
   }
-  public String toString() { // Añadido Alberto
+  public String toString() { // Aï¿½adido Alberto
 	  return (_dia + "/"+ _mes + "/" +_anio);
   }
-  /** Lectura de la fecha (día, mes y año). */
+  /** Lectura de la fecha (dï¿½a, mes y aï¿½o). */
   public void leer() {
     System.out.print("Dia: ");
     _dia = MyInput.readInt();
@@ -39,13 +41,13 @@ public class Fecha {
     valida();
   }
 
-  /** Indica si el año es bisiesto o no. */
+  /** Indica si el aï¿½o es bisiesto o no. */
   public boolean bisiesto() {
     return (_anio % 4) == 0;
   }
 
-  /** Días del mes de la fecha.
-   * @param  mes El mes del que se quiere saber su número de días. */
+  /** Dï¿½as del mes de la fecha.
+   * @param  mes El mes del que se quiere saber su nï¿½mero de dï¿½as. */
   public int diasMes(int mes) {
     int numeroDias;
     switch(mes) {
@@ -83,7 +85,7 @@ public class Fecha {
     System.out.print(_mes + "-" + _anio);
   }
 
-  /** Devuelve los días transcurridos desde el 1-1-1900 hasta la fecha. */
+  /** Devuelve los dï¿½as transcurridos desde el 1-1-1900 hasta la fecha. */
   public long diasTranscurridos() {
     long total;
     int anios, m, bisiestos = 0;
@@ -92,13 +94,13 @@ public class Fecha {
     bisiestos = (anios + 3) / 4;
     total += bisiestos;
     for(m = 1; m < _mes; m++) total += diasMes(m);
-    total += _dia; // Total de días desde 1-1-1900 hasta la fecha.
+    total += _dia; // Total de dï¿½as desde 1-1-1900 hasta la fecha.
     // Incluyendo ambas fechas (se ha de restar una).
     total--;
     return total;
   }
 
-  /** Día de la semana de la fecha (0 para domingo). */
+  /** Dï¿½a de la semana de la fecha (0 para domingo). */
   public int diaSemana() {
     int nd = (int) (diasTranscurridos() % 7);
     return nd;
@@ -135,7 +137,7 @@ public class Fecha {
   }
 
   /** Establece la fecha que corresponde tras transcurrir
-   * los días que se proporcionan desde el 1-1-1900. */
+   * los dï¿½as que se proporcionan desde el 1-1-1900. */
   public void fechaTras(long dias) {
     int diasAnio, diasMes;
     if(dias < 0) return;
@@ -168,19 +170,19 @@ public class Fecha {
     }
   }
 
-  /** Días entre la fecha y la proporcionada. */
+  /** Dï¿½as entre la fecha y la proporcionada. */
   public long diasEntre(Fecha otra) {
     long dias = diasTranscurridos() - otra.diasTranscurridos();
     return Math.abs(dias);
   }
 
-  /** Pasa al día siguiente. */
+  /** Pasa al dï¿½a siguiente. */
   public void siguiente() {
     long dias = diasTranscurridos();
     fechaTras(dias + 1);
   }
 
-  /** Pasa al día anterior. */
+  /** Pasa al dï¿½a anterior. */
   public void anterior() {
     long dias = diasTranscurridos();
     fechaTras(dias - 1);
@@ -195,19 +197,19 @@ public class Fecha {
     return tmp;
   }
 
-  /** ¿Es menor la fecha que la proporcionada? */
+  /** ï¿½Es menor la fecha que la proporcionada? */
   public boolean menorQue(Fecha f) {
     if(diasTranscurridos() < f.diasTranscurridos()) return true;
     else return false;
   }
 
-  /** ¿Es igual la fecha que la proporcionada? */
+  /** ï¿½Es igual la fecha que la proporcionada? */
   public boolean igualQue(Fecha f) {
     if(diasTranscurridos() == f.diasTranscurridos()) return true;
     else return false;
   }
 
-  /** ¿Es mayor la fecha que la proporcionada? */
+  /** ï¿½Es mayor la fecha que la proporcionada? */
   public boolean mayorQue(Fecha f) {
     if(diasTranscurridos() > f.diasTranscurridos()) return true;
     else return false;
@@ -215,7 +217,7 @@ public class Fecha {
 
   /** Comprueba si la fecha es correcta y si no la ajusta.
    * Se llama tras la lectura de los datos. */
-  private void valida() { // Método auxiliar (privado)
+  private void valida() { // Mï¿½todo auxiliar (privado)
     if((_anio < 1900) || (_anio > 2050)) _anio = 1900;
     if((_mes < 1) || (_mes > 12)) _mes = 1;
     if(_dia < 1) _dia = 1;
