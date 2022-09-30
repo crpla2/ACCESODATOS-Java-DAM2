@@ -1,6 +1,6 @@
 package paquete1_mejorado;
 /*
- * Alberto Carrera Martín 
+ * Alberto Carrera Martï¿½n 
  * 29 de febrero de 2020
  */
 import java.sql.SQLException;
@@ -14,7 +14,7 @@ public class Main {
 		try {
 			abd.conectar();
 		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("NO SE PUDO ESTABLECER CONEXIÓN");
+			System.out.println("NO SE PUDO ESTABLECER CONEXIÃ“N");
 			System.exit(-1);
 		}
 		
@@ -25,7 +25,7 @@ public class Main {
 				 System.out.println(l);
 		}
 		else
-			System.out.println("Lista de todos los libros vacía");
+			System.out.println("Lista de todos los libros vacÃ­a");
 		//
 		//
 		System.out.println("\n");
@@ -43,18 +43,18 @@ public class Main {
 		//
 		ArrayList <Libro> librosPorTitulo = abd.consultarPorTitulo("man");
 		if (librosPorTitulo.size()!=0) {
-			System.out.println("Listado de libros que contienen man en el título 'man'");
+			System.out.println("Listado de libros que contienen man en el tÃ­tulo 'man'");
 			for (Libro l2 : librosPorTitulo)
 				 System.out.println(l2);
 		}
 		else
-			System.out.println("Lista de Libros vacía");
+			System.out.println("Lista de Libros vacÃ­a");
 		
 		
 		try {
 			abd.desconectar();
 		} catch (SQLException e) {
-			System.out.println("NO SE PUDO DESCONECTAR - NO SE LLEGÓ A ESTABLECER CONEXIÓN");
+			System.out.println("NO SE PUDO DESCONECTAR - NO SE LLEGï¿½ A ESTABLECER CONEXIï¿½N");
 			System.exit(-1);
 		}
 	}
