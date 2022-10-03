@@ -1,23 +1,27 @@
-package Ejercicio_13;
+package Ejercicio_14;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
-public class Cliente implements Serializable {
+public class Cliente implements Externalizable {
 	private String nombreCompleto;
 	private String telefono;
 	private String direccion;
 	private String nif;
-	transient String moroso;
+	private String moroso;
 
 	public Cliente() {
 	}
 
-	public Cliente(String nombreCompleto, String telefono, String direccion, String nif) {
+	public Cliente(String nombreCompleto, String telefono, String direccion, String nif,String moroso) {
 		super();
 		this.nombreCompleto = nombreCompleto;
 		this.telefono = telefono;
 		this.direccion = direccion;
 		this.nif = nif;
+		this.moroso=moroso;
 		
 	}
 
@@ -64,7 +68,27 @@ public class Cliente implements Serializable {
 	@Override
 	public String toString() {
 		return "Cliente [Nombre: " + nombreCompleto + ", Teléfono: " + telefono + ", Dirección: " + direccion
-				+ ", NIF:" + nif +  "]";
+				+ ", NIF:" + nif +", moroso:"+ moroso +"]";
+	}
+
+	@Override
+	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+		this.nombreCompleto = in.readUTF();
+		this.telefono =  in.readUTF();
+		this.direccion =  in.readUTF();
+		this.nif =  in.readUTF();
+		
+		
+	}
+
+	@Override
+	public void writeExternal(ObjectOutput out) throws IOException {
+		out.writeUTF(nombreCompleto);
+		out.writeUTF(telefono);
+		out.writeUTF(direccion);
+		out.writeUTF(direccion);
+		
+		
 	}
 
 }
