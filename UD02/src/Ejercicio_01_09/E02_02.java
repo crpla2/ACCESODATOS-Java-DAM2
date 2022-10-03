@@ -13,7 +13,7 @@ public class E02_02 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		if(args.length==0) {
-			System.out.println("No se ha recibido ningun argumento");
+			System.err.println("No se ha recibido ningun argumento");
 			System.exit(0);
 		}
 		else {
