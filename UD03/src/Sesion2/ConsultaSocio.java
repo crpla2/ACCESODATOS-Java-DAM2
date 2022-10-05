@@ -19,6 +19,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 	private static AccesoBd abd3 = new AccesoBd();
 	private static ResultSet rs = null;
 	private static int ultimo = 0;
+	private static boolean buscado = false;
 	private Container panel;
 	private JLabel socio;
 	private JTextField nombreT;
@@ -29,6 +30,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 	private JButton editar;
 	private JButton anterior;
 	private JButton siguiente;
+	private JButton volver;
 	private JButton nuevo;
 	private JButton actualizar;
 	private JButton borrar;
@@ -89,19 +91,19 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 		editar.addActionListener(this);
 
 		nuevo = new JButton("Nuevo");
-		nuevo.setBounds(311, 111, 89, 23);
+		nuevo.setBounds(311, 141, 89, 23);
 		panel.add(nuevo);
 		nuevo.addActionListener(this);
-		nuevo.setVisible(false);
+		nuevo.setVisible(true);
 
 		actualizar = new JButton("Actualiza");
-		actualizar.setBounds(311, 141, 89, 23);
+		actualizar.setBounds(311, 111, 89, 23);
 		panel.add(actualizar);
 		actualizar.addActionListener(this);
 		actualizar.setVisible(false);
 
 		borrar = new JButton("Borrar");
-		borrar.setBounds(311, 171, 89, 23);
+		borrar.setBounds(311, 141, 89, 23);
 		panel.add(borrar);
 		borrar.addActionListener(this);
 		borrar.setVisible(false);
@@ -117,6 +119,12 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 		panel.add(siguiente);
 		siguiente.addActionListener(this);
 		siguiente.setEnabled(false);
+		
+		volver = new JButton("Volver");
+		volver.setBounds(330, 271, 89, 23);
+		panel.add(volver);
+		volver.addActionListener(this);
+		volver.setVisible(false);
 
 		buscarT = new JTextField();
 		buscarT.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -189,9 +197,11 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		 
 		try {
 			if (e.getSource() == buscar) {
+				buscado=true;
+				System.err.println(buscado);
 				rs = abd3.consulta(buscarT.getText());
 				rs.last();
 				ultimo = rs.getRow();
@@ -221,16 +231,27 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 				}
 			} // fin anterior
 			if (e.getSource() == editar) {
-				editar.setVisible(false);
-				buscar.setVisible(false);
-				nuevo.setVisible(true);
-				actualizar.setVisible(true);
-				borrar.setVisible(true);
-				buscarT.setVisible(false);
+				volver.setVisible(true);
 				nombreT.setEditable(true);
 				estaturaT.setEditable(true);
 				edadT.setEditable(true);
 				localidadT.setEditable(true);
+				
+				if(buscado) {
+					System.out.println(buscado);
+				editar.setVisible(false);
+				actualizar.setVisible(true);
+				borrar.setVisible(true);
+				nuevo.setVisible(false);
+				}
+				else {
+					System.out.println(buscado);
+					buscarT.setVisible(false);
+					buscar.setVisible(false);
+					editar.setVisible(false);
+					
+					
+				}
 			}
 			if (e.getSource() == nuevo) {
 
@@ -240,6 +261,24 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 			}
 			if (e.getSource() == borrar) {
 
+			}
+			if  (e.getSource() == volver) {
+				buscado=false;
+				volver.setVisible(false);
+				nuevo.setVisible(true);
+				socioT.setText("");
+				nombreT.setEditable(false);
+				nombreT.setText("");
+				estaturaT.setEditable(false);
+				estaturaT.setText("");
+				edadT.setEditable(false);
+				localidadT.setEditable(false);
+				localidadT.setText("");
+				buscar.setVisible(true);
+				editar.setVisible(true);
+				actualizar.setVisible(false);
+				borrar.setVisible(false);
+				
 			}
 
 			socioT.setText(rs.getString(1));
