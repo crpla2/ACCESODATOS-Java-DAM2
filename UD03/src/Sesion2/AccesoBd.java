@@ -26,6 +26,12 @@ public class AccesoBd {
 		conecta = DriverManager.getConnection(url, username, password);
 	}
 
+	public void desconectar() throws SQLException {
+		if (conecta != null) {
+			conecta.close();
+		}
+	}
+	
 	public ResultSet consulta(String localidad) throws SQLException {
 		PreparedStatement consulta;
 		String cadenaSQL = "SELECT * FROM socio ";
@@ -41,10 +47,40 @@ public class AccesoBd {
 		return reg;
 	}
 
-	public void desconectar() throws SQLException {
-		if (conecta != null) {
-			conecta.close();
+	
+	public int nuevo(Socio socio) {
+		try {
+			String sql="insert into socio values (?,?,?,?)";
+			PreparedStatement inserta =conecta.prepareStatement(sql);
+			inserta.setInt(1,socio.getId());
+			inserta.setString(2,socio.getNombre());
+			inserta.setInt(3,socio.getEstatura());
+			inserta.setInt(4,socio.getEdad());
+			inserta.setString(5, socio.getLocalidad());
+			inserta.executeUpdate();
+			return 1;
+		} catch(SQLException e){
+			return e.getErrorCode();
 		}
 	}
+	
+	public int actualizar(Socio socio) {
+		try {
+			String sql="update socio set nombre=?, estatura=?, edad=?, localidad=? where socioID=?";
+			PreparedStatement actualiza = conecta.prepareStatement(sql);
+			actualiza.setString(1,socio.getNombre());
+			actualiza.setInt(2,socio.getEstatura());
+			actualiza.setInt(3,socio.getEdad());
+			actualiza.setString(4, socio.getLocalidad());
+			actualiza.setInt(5,socio.getId());
+			return actualiza.executeUpdate();
+			
+		} catch(SQLException e){
+		return 0;
+		}
+
+	}
+	
+
 
 }

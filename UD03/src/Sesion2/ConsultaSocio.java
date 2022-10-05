@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-
 public class ConsultaSocio extends JFrame implements ActionListener {
 	private static AccesoBd abd3 = new AccesoBd();
 	private static ResultSet rs = null;
@@ -27,6 +26,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 	private JLabel edad;
 	private JLabel localidad;
 	private JButton buscar;
+	private JButton editar;
 	private JButton anterior;
 	private JButton siguiente;
 	private JButton nuevo;
@@ -82,21 +82,29 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 		buscar.setBounds(311, 81, 89, 23);
 		panel.add(buscar);
 		buscar.addActionListener(this);
-		
-		buscar = new JButton("Nuevo");
-		buscar.setBounds(311, 111, 89, 23);
-		panel.add(buscar);
-		buscar.addActionListener(this);
-		
-		buscar = new JButton("Actualiza");
-		buscar.setBounds(311, 141, 89, 23);
-		panel.add(buscar);
-		buscar.addActionListener(this);
-		
-		buscar = new JButton("Borrar");
-		buscar.setBounds(311, 171, 89, 23);
-		panel.add(buscar);
-		buscar.addActionListener(this);
+
+		editar = new JButton("Editar");
+		editar.setBounds(311, 111, 89, 23);
+		panel.add(editar);
+		editar.addActionListener(this);
+
+		nuevo = new JButton("Nuevo");
+		nuevo.setBounds(311, 111, 89, 23);
+		panel.add(nuevo);
+		nuevo.addActionListener(this);
+		nuevo.setVisible(false);
+
+		actualizar = new JButton("Actualiza");
+		actualizar.setBounds(311, 141, 89, 23);
+		panel.add(actualizar);
+		actualizar.addActionListener(this);
+		actualizar.setVisible(false);
+
+		borrar = new JButton("Borrar");
+		borrar.setBounds(311, 171, 89, 23);
+		panel.add(borrar);
+		borrar.addActionListener(this);
+		borrar.setVisible(false);
 
 		anterior = new JButton("Anterior");
 		anterior.setBounds(100, 271, 89, 23);
@@ -164,7 +172,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 		setSize(490, 370);
 		setVisible(true);
 		setDefaultCloseOperation(0);
-		//cierre del programa y desconexion de la base de datos
+		// cierre del programa y desconexion de la base de datos
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent we) {
 				try {
@@ -181,15 +189,15 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-	
+
 		try {
 			if (e.getSource() == buscar) {
 				rs = abd3.consulta(buscarT.getText());
 				rs.last();
 				ultimo = rs.getRow();
 				if (ultimo < 1) {
-					JOptionPane.showMessageDialog(panel, "No existen registros en  " 
-							+ buscarT.getText(),"error", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(panel, "No existen registros en  " + buscarT.getText(), "error",
+							JOptionPane.INFORMATION_MESSAGE);
 					anterior.setEnabled(false);
 					siguiente.setEnabled(false);
 				} else {
@@ -198,20 +206,42 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 			} // fin buscar
 			if (e.getSource() == siguiente) {
 				if (rs.isLast()) {
-					JOptionPane.showMessageDialog(panel, "No existen registros posteriores", 
-							"Último socio",JOptionPane.INFORMATION_MESSAGE, null);
+					JOptionPane.showMessageDialog(panel, "No existen registros posteriores", "Último socio",
+							JOptionPane.INFORMATION_MESSAGE, null);
 				} else {
 					rs.next();
 				}
 			} // fin siguiente
 			if (e.getSource() == anterior) {
 				if (rs.isFirst()) {
-					JOptionPane.showMessageDialog(panel, "No existen registros anteriores",
-							"Primer socio",JOptionPane.INFORMATION_MESSAGE, null);
+					JOptionPane.showMessageDialog(panel, "No existen registros anteriores", "Primer socio",
+							JOptionPane.INFORMATION_MESSAGE, null);
 				} else {
 					rs.previous();
 				}
 			} // fin anterior
+			if (e.getSource() == editar) {
+				editar.setVisible(false);
+				buscar.setVisible(false);
+				nuevo.setVisible(true);
+				actualizar.setVisible(true);
+				borrar.setVisible(true);
+				buscarT.setVisible(false);
+				nombreT.setEditable(true);
+				estaturaT.setEditable(true);
+				edadT.setEditable(true);
+				localidadT.setEditable(true);
+			}
+			if (e.getSource() == nuevo) {
+
+			}
+			if (e.getSource() == actualizar) {
+
+			}
+			if (e.getSource() == borrar) {
+
+			}
+
 			socioT.setText(rs.getString(1));
 			nombreT.setText(rs.getString(2));
 			estaturaT.setText(rs.getString(3));
@@ -227,7 +257,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		ConsultaSocio ventana = new ConsultaSocio();
 		try {
-			
+
 			abd3.conectar();
 			System.out.println("conectado");
 		} catch (ClassNotFoundException | SQLException e) {
