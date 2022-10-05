@@ -119,7 +119,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 		panel.add(siguiente);
 		siguiente.addActionListener(this);
 		siguiente.setEnabled(false);
-		
+
 		volver = new JButton("Volver");
 		volver.setBounds(330, 271, 89, 23);
 		panel.add(volver);
@@ -197,11 +197,10 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		 
+
 		try {
 			if (e.getSource() == buscar) {
-				buscado=true;
-				System.err.println(buscado);
+				buscado = true;
 				rs = abd3.consulta(buscarT.getText());
 				rs.last();
 				ultimo = rs.getRow();
@@ -236,25 +235,28 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 				estaturaT.setEditable(true);
 				edadT.setEditable(true);
 				localidadT.setEditable(true);
-				
-				if(buscado) {
-					System.out.println(buscado);
-				editar.setVisible(false);
-				actualizar.setVisible(true);
-				borrar.setVisible(true);
-				nuevo.setVisible(false);
-				}
-				else {
-					System.out.println(buscado);
+
+				if (buscado) {
+					editar.setVisible(false);
+					actualizar.setVisible(true);
+					borrar.setVisible(true);
+					nuevo.setVisible(false);
+				} else {
 					buscarT.setVisible(false);
 					buscar.setVisible(false);
 					editar.setVisible(false);
-					
-					
 				}
 			}
 			if (e.getSource() == nuevo) {
-
+				
+				nombreT.setEditable(true);
+				estaturaT.setEditable(true);
+				edadT.setEditable(true);
+				localidadT.setEditable(true);
+				buscar.setVisible(false);
+				editar.setVisible(false);
+				buscarT.setVisible(false);
+				volver.setVisible(true);
 			}
 			if (e.getSource() == actualizar) {
 
@@ -262,8 +264,9 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 			if (e.getSource() == borrar) {
 
 			}
-			if  (e.getSource() == volver) {
-				buscado=false;
+			if (e.getSource() == volver) {
+				rs=null;
+				buscado = false;
 				volver.setVisible(false);
 				nuevo.setVisible(true);
 				socioT.setText("");
@@ -278,7 +281,8 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 				editar.setVisible(true);
 				actualizar.setVisible(false);
 				borrar.setVisible(false);
-				
+				buscarT.setVisible(true);
+
 			}
 
 			socioT.setText(rs.getString(1));
