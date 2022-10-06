@@ -32,6 +32,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 	private JButton siguiente;
 	private JButton volver;
 	private JButton nuevo;
+	private JButton confirmar;
 	private JButton actualizar;
 	private JButton borrar;
 	private JTextField buscarT;
@@ -95,6 +96,12 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 		panel.add(nuevo);
 		nuevo.addActionListener(this);
 		nuevo.setVisible(true);
+
+		confirmar = new JButton("Confirmar");
+		confirmar.setBounds(311, 141, 89, 23);
+		panel.add(confirmar);
+		confirmar.addActionListener(this);
+		confirmar.setVisible(false);
 
 		actualizar = new JButton("Actualiza");
 		actualizar.setBounds(311, 111, 89, 23);
@@ -230,6 +237,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 				}
 			} // fin anterior
 			if (e.getSource() == editar) {
+				texto.setText("");
 				volver.setVisible(true);
 				nombreT.setEditable(true);
 				estaturaT.setEditable(true);
@@ -248,25 +256,96 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 				}
 			}
 			if (e.getSource() == nuevo) {
-				
+				rs = abd3.limpia();
+				socioT.setText("");
+				texto.setText("");
 				nombreT.setEditable(true);
+				nombreT.setText("");
 				estaturaT.setEditable(true);
+				estaturaT.setText("");
 				edadT.setEditable(true);
+				edadT.setText("");
 				localidadT.setEditable(true);
+				localidadT.setText("");
 				buscar.setVisible(false);
 				editar.setVisible(false);
 				buscarT.setVisible(false);
 				volver.setVisible(true);
+				nuevo.setVisible(false);
+				confirmar.setVisible(true);
+			}
+
+			if (e.getSource() == confirmar) {
+				Socio socioN=new Socio(nombreT.getText(), Integer.parseInt(estaturaT.getText()),
+						Integer.parseInt(edadT.getText()), localidadT.getText());
+				try {
+					if (abd3.nuevo(socioN) == 1){
+						JOptionPane.showMessageDialog(panel,
+								"El socio " + nombreT.getText() + " ha sido introducido correctamente", "Enhorabuena",
+								JOptionPane.INFORMATION_MESSAGE, null);
+					socioT.setText(String.valueOf(socioN.getId()));}
+					else
+						JOptionPane.showMessageDialog(panel, "No se ha podido realizar la operación", "Error",
+								JOptionPane.ERROR_MESSAGE);
+
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(panel, "No se ha podido realizar la operación", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+
 			}
 			if (e.getSource() == actualizar) {
+				try {
+					if (abd3.actualizar(new Socio(Integer.parseInt(socioT.getText()), nombreT.getText(),
+							Integer.parseInt(estaturaT.getText()), Integer.parseInt(edadT.getText()),
+							localidadT.getText())) == 1) {
+						JOptionPane.showMessageDialog(panel,
+								"El socio " + nombreT.getText() + " ha sido actualizado correctamente", "Enhorabuena",
+								JOptionPane.INFORMATION_MESSAGE, null);
+						buscar.setVisible(false);
+						actualizar.setVisible(false);
+						borrar.setVisible(false);
+						anterior.setVisible(false);
+						siguiente.setVisible(false);
+						}
+					else
+						JOptionPane.showMessageDialog(panel, "No se ha podido realizar la operación", "Error",
+								JOptionPane.ERROR_MESSAGE);
 
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(panel, "No se ha podido realizar la operación", "Error",
+							JOptionPane.ERROR_MESSAGE);
+
+				}
 			}
 			if (e.getSource() == borrar) {
-
+				try {
+					int res=abd3.borrar(new Socio(Integer.parseInt(socioT.getText()), nombreT.getText(),
+							Integer.parseInt(estaturaT.getText()), Integer.parseInt(edadT.getText()),
+							localidadT.getText()));
+					if (res == 1) {
+						JOptionPane.showMessageDialog(panel,
+								"El socio " + nombreT.getText() + " ha sido borrado correctamente", "Enhorabuena",
+								JOptionPane.INFORMATION_MESSAGE, null);
+						buscar.setVisible(false);
+						actualizar.setVisible(false);
+						borrar.setVisible(false);
+						anterior.setVisible(false);
+						siguiente.setVisible(false);}
+					else
+						JOptionPane.showMessageDialog(panel, "No se ha podido realizar la operación", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					System.out.println("aqui");
+				} catch (NumberFormatException e1) {
+					JOptionPane.showMessageDialog(panel, "No se ha podido realizar la operación", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					System.out.println(e1.getMessage());
+				}
 			}
 			if (e.getSource() == volver) {
-				rs=null;
+				rs = abd3.limpia();
 				buscado = false;
+				texto.setText("");
 				volver.setVisible(false);
 				nuevo.setVisible(true);
 				socioT.setText("");
@@ -275,6 +354,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 				estaturaT.setEditable(false);
 				estaturaT.setText("");
 				edadT.setEditable(false);
+				edadT.setText("");
 				localidadT.setEditable(false);
 				localidadT.setText("");
 				buscar.setVisible(true);
@@ -282,7 +362,10 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 				actualizar.setVisible(false);
 				borrar.setVisible(false);
 				buscarT.setVisible(true);
-
+				nuevo.setVisible(true);
+				confirmar.setVisible(false);
+				siguiente.setVisible(true);
+				anterior.setVisible(true);
 			}
 
 			socioT.setText(rs.getString(1));

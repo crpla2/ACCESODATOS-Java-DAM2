@@ -21,6 +21,12 @@ public class Socio {
 		this.edad = edad;
 		this.localidad = localidad;
 	}
+	public Socio( String nombre, int estatura, int edad, String localidad) {
+		this.nombre = nombre;
+		this.estatura = estatura;
+		this.edad = edad;
+		this.localidad = localidad;
+	}
 
 	public int getId() {
 		return id;
