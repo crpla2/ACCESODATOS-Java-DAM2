@@ -19,7 +19,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 	private static AccesoBd abd3 = new AccesoBd();
 	private static ResultSet rs = null;
 	private static int ultimo = 0;
-	private static boolean buscado = false;
+
 	private Container panel;
 	private JLabel socio;
 	private JTextField nombreT;
@@ -92,12 +92,12 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 		editar.addActionListener(this);
 
 		nuevo = new JButton("Nuevo");
-		nuevo.setBounds(311, 141, 89, 23);
+		nuevo.setBounds(311, 171, 89, 23);
 		panel.add(nuevo);
 		nuevo.addActionListener(this);
-		nuevo.setVisible(true);
+		nuevo.setVisible(false);
 
-		confirmar = new JButton("Confirmar");
+		confirmar = new JButton("Confirma");
 		confirmar.setBounds(311, 141, 89, 23);
 		panel.add(confirmar);
 		confirmar.addActionListener(this);
@@ -207,7 +207,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 
 		try {
 			if (e.getSource() == buscar) {
-				buscado = true;
+
 				rs = abd3.consulta(buscarT.getText());
 				rs.last();
 				ultimo = rs.getRow();
@@ -243,17 +243,11 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 				estaturaT.setEditable(true);
 				edadT.setEditable(true);
 				localidadT.setEditable(true);
+				editar.setVisible(false);
+				actualizar.setVisible(true);
+				borrar.setVisible(true);
+				nuevo.setVisible(true);
 
-				if (buscado) {
-					editar.setVisible(false);
-					actualizar.setVisible(true);
-					borrar.setVisible(true);
-					nuevo.setVisible(false);
-				} else {
-					buscarT.setVisible(false);
-					buscar.setVisible(false);
-					editar.setVisible(false);
-				}
 			}
 			if (e.getSource() == nuevo) {
 				rs = abd3.limpia();
@@ -269,6 +263,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 				localidadT.setText("");
 				buscar.setVisible(false);
 				editar.setVisible(false);
+				actualizar.setVisible(false);
 				buscarT.setVisible(false);
 				volver.setVisible(true);
 				nuevo.setVisible(false);
@@ -276,15 +271,15 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 			}
 
 			if (e.getSource() == confirmar) {
-				Socio socioN=new Socio(nombreT.getText(), Integer.parseInt(estaturaT.getText()),
+				Socio socioN = new Socio(nombreT.getText(), Integer.parseInt(estaturaT.getText()),
 						Integer.parseInt(edadT.getText()), localidadT.getText());
 				try {
-					if (abd3.nuevo(socioN) == 1){
+					if (abd3.nuevo(socioN) == 1) {
 						JOptionPane.showMessageDialog(panel,
 								"El socio " + nombreT.getText() + " ha sido introducido correctamente", "Enhorabuena",
 								JOptionPane.INFORMATION_MESSAGE, null);
-					socioT.setText(String.valueOf(socioN.getId()));}
-					else
+						socioT.setText(String.valueOf(socioN.getId()));
+					} else
 						JOptionPane.showMessageDialog(panel, "No se ha podido realizar la operación", "Error",
 								JOptionPane.ERROR_MESSAGE);
 
@@ -307,8 +302,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 						borrar.setVisible(false);
 						anterior.setVisible(false);
 						siguiente.setVisible(false);
-						}
-					else
+					} else
 						JOptionPane.showMessageDialog(panel, "No se ha podido realizar la operación", "Error",
 								JOptionPane.ERROR_MESSAGE);
 
@@ -320,7 +314,10 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 			}
 			if (e.getSource() == borrar) {
 				try {
-					int res=abd3.borrar(new Socio(Integer.parseInt(socioT.getText()), nombreT.getText(),
+					JOptionPane pane= new JOptionPane(borrar);
+					pane.se
+					
+					int res = abd3.borrar(new Socio(Integer.parseInt(socioT.getText()), nombreT.getText(),
 							Integer.parseInt(estaturaT.getText()), Integer.parseInt(edadT.getText()),
 							localidadT.getText()));
 					if (res == 1) {
@@ -331,8 +328,8 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 						actualizar.setVisible(false);
 						borrar.setVisible(false);
 						anterior.setVisible(false);
-						siguiente.setVisible(false);}
-					else
+						siguiente.setVisible(false);
+					} else
 						JOptionPane.showMessageDialog(panel, "No se ha podido realizar la operación", "Error",
 								JOptionPane.ERROR_MESSAGE);
 					System.out.println("aqui");
@@ -344,10 +341,9 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 			}
 			if (e.getSource() == volver) {
 				rs = abd3.limpia();
-				buscado = false;
+
 				texto.setText("");
 				volver.setVisible(false);
-				nuevo.setVisible(true);
 				socioT.setText("");
 				nombreT.setEditable(false);
 				nombreT.setText("");
@@ -362,7 +358,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 				actualizar.setVisible(false);
 				borrar.setVisible(false);
 				buscarT.setVisible(true);
-				nuevo.setVisible(true);
+				nuevo.setVisible(false);
 				confirmar.setVisible(false);
 				siguiente.setVisible(true);
 				anterior.setVisible(true);
