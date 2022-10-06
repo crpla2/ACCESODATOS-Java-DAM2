@@ -41,12 +41,12 @@ public class JSON_resumen {
 			JsonArray jArray=JsonParser.parseString(fichero2).getAsJsonArray();
 			jArray.forEach(element->{JsonObject jo=element.getAsJsonObject();
 			System.out.println(jo.get("titulo").getAsString());
-//									lista2.add(new Pelicula(
-//											jo.get("id").getAsInt(),jo.get("titulo").getAsString(),
-//											jo.get("año").getAsInt(),jo.get("descripcion").getAsString()));
+									lista2.add(new Pelicula(
+											jo.get("id").getAsInt(),jo.get("titulo").getAsString(),
+											jo.get("año").getAsInt(),jo.get("descripcion").getAsString()));
 			});
-//		for(Pelicula p:lista2){
-//				System.out.println(p);}
+		for(Pelicula p:lista2){
+				System.out.println(p);}
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

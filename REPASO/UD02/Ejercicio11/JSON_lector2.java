@@ -17,7 +17,7 @@ public class JSON_lector2 {
 			String fichero=new String(Files.readAllBytes(Paths.get("Ficheros/peliculas.json")));
 			JsonArray jsonarray=JsonParser.parseString(fichero).getAsJsonArray();
 			jsonarray.forEach(j->{JsonObject jso=j.getAsJsonObject();
-								System.out.println(jso.get("titulo").getAsString());
+								System.out.println(jso);//.get("titulo").getAsString());
 								});
 } catch (IOException e) {
 			// TODO Auto-generated catch block
