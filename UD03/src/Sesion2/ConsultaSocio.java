@@ -257,6 +257,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 				volver.setVisible(true);
 				nuevo.setVisible(false);
 				confirmar.setVisible(true);
+				borrar.setVisible(false);
 			}//fin nuevo
 
 			if (e.getSource() == confirmar) {

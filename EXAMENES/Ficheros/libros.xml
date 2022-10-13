@@ -1,0 +1,32 @@
+<ListaLibros>
+  <Libro>
+    <isbn>978-84-415-4225-9</isbn>
+    <titulo>Deep Learning con Python</titulo>
+    <autor>Francois Chollet</autor>
+    <numeroPaginas>384</numeroPaginas>
+  </Libro>
+  <Libro>
+    <isbn>978-84-415-4159-7</isbn>
+    <titulo>AutoCad 2020</titulo>
+    <autor>Fernando Montaño La Cruz</autor>
+    <numeroPaginas>416</numeroPaginas>
+  </Libro>
+  <Libro>
+    <isbn>978-84-415-3691-3</isbn>
+    <titulo>Desarrollo Web con PHP y MySQL</titulo>
+    <autor>Luke Welling, Laura Thomson</autor>
+    <numeroPaginas>656</numeroPaginas>
+  </Libro>
+  <Libro>
+    <isbn>978-84-415-3631-9</isbn>
+    <titulo>Java 8</titulo>
+    <autor>Rogers Cadenhead</autor>
+    <numeroPaginas>416</numeroPaginas>
+  </Libro>
+  <Libro>
+    <isbn>978-84-415-2979-3</isbn>
+    <titulo>C++</titulo>
+    <autor>Jesse Liberty, Rogers Cadenhead</autor>
+    <numeroPaginas>464</numeroPaginas>
+  </Libro>
+</ListaLibros>
