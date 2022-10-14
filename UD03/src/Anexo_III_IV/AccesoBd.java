@@ -1,5 +1,6 @@
-package Sesion2;
+package Anexo_III_IV;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -31,21 +32,15 @@ public class AccesoBd {
 	}
 
 	public ResultSet consulta(String localidad) throws SQLException {
-		PreparedStatement consulta;
-		String cadenaSQL = "SELECT * FROM socio ";
-		if (localidad.isEmpty()) {
-			consulta = conecta.prepareStatement(cadenaSQL, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		} else {
-			cadenaSQL = "SELECT * FROM socio  where localidad = ?";
-			consulta = conecta.prepareStatement(cadenaSQL, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			consulta.setString(1, localidad);
-		}
-
+		CallableStatement consulta = null;
+		consulta=conecta.prepareCall("CALL consultaSocio(?)");
+		consulta.setString(1,localidad);
 		ResultSet reg = consulta.executeQuery();
 		return reg;
 	}
 
 	public ResultSet limpia() throws SQLException {
+		
 		PreparedStatement consulta;
 		String cadenaSQL = "select * from socio where socioID=0";
 		consulta = conecta.prepareStatement(cadenaSQL, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);

@@ -1,4 +1,4 @@
-package Sesion2;
+package Anexo_III_IV;
 
 public class Socio {
 	private int id;
