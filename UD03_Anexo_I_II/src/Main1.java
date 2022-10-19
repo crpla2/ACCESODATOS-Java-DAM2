@@ -1,10 +1,10 @@
 
 import java.sql.*;
-// Alberto Carrera Martín - 20 de Marzo de 2020
-// Demo de llamada a la función "totalEmpleados" almacenada en MySQL
-// Esta función ya se encuentra también compilada en MySQL después de lanzar 
+// Alberto Carrera Martï¿½n - 20 de Marzo de 2020
+// Demo de llamada a la funciï¿½n "totalEmpleados" almacenada en MySQL
+// Esta funciï¿½n ya se encuentra tambiï¿½n compilada en MySQL despuï¿½s de lanzar 
 // el script "script_procedimientosMySQL.sql". De todas formas al final de esta clase
-// se encuentra el código fuente de la misma
+// se encuentra el cï¿½digo fuente de la misma
 
 
 public class Main1 {
@@ -15,29 +15,29 @@ public class Main1 {
 	private static String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database +
 									"?serverTimezone=Europe/Madrid";
     private static String username = "root";
-    private static String password = "rootroot";
+    private static String password = "root";
  
 	public static void main(String[] args) 
      throws ClassNotFoundException, SQLException {
 		
 	  Class.forName(driver);
 	  Connection conn = DriverManager.getConnection(url, username, password);
-      // Creo la llamada a la función de manera muy parecida 
+      // Creo la llamada a la funciï¿½n de manera muy parecida 
 	  // a la empleada para sentencias preparadas
 	  CallableStatement proc = conn.prepareCall("Select totalEmpleados(?) ");
-      // Acoplamiento de variables: El ? de la línea anterior
+      // Acoplamiento de variables: El ? de la lï¿½nea anterior
 	  // es un entero de valor 110
-	   proc.setInt(1, 110); // Quiero saber el número empleados del departamento 110            
+	   proc.setInt(1, 110); // Quiero saber el nï¿½mero empleados del departamento 110            
        // Ejecuto la llamada y recojo las filas resultantes 
-	   // en un ResultSet. Realmente, solo una fila y una única columna 
-	   // que contendrá  la cuenta de empleados de ese departamento
+	   // en un ResultSet. Realmente, solo una fila y una ï¿½nica columna 
+	   // que contendrï¿½  la cuenta de empleados de ese departamento
 	   ResultSet rs=proc.executeQuery();
        //Declaro una variable donde recoger el valor de la columna
 	   // (se puede hacer directamente sin esta variable)
 	   int numero=0;
        if (rs.next()) {
     	   numero = rs.getInt(1);
-           System.out.println("Número empleados Departamento 110 --> " + numero);
+           System.out.println("Nï¿½mero empleados Departamento 110 --> " + numero);
        }
        else
     	   System.out.println("No se recuperaron datos");

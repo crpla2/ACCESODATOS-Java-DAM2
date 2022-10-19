@@ -23,17 +23,19 @@ public class AccesoBd {
 	public void conectar() throws SQLException, ClassNotFoundException {
 		Class.forName(driver);
 		conecta = DriverManager.getConnection(url, username, password);
+		conecta.setAutoCommit(false);;
 	}
 
 	public void desconectar() throws SQLException {
 		if (conecta != null) {
 			conecta.close();
+			conecta.setAutoCommit(true);
 		}
 	}
 
 	public ResultSet consulta(String localidad) throws SQLException {
 		CallableStatement consulta = null;
-		consulta=conecta.prepareCall("CALL consultaSocio(?)");
+		consulta=conecta.prepareCall("CALL buscaSocios(?)", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		consulta.setString(1,localidad);
 		ResultSet reg = consulta.executeQuery();
 		return reg;
@@ -57,9 +59,17 @@ public class AccesoBd {
 			inserta.setInt(3, socio.getEdad());
 			inserta.setString(4, socio.getLocalidad());
 			inserta.executeUpdate();
+			conecta.commit();
 			return 1;
 		} catch (SQLException e) {
-			return e.getErrorCode();
+			System.err.println("ERROR: Deshaciendo cambios");
+			try {
+				conecta.rollback();
+				System.err.println("No se realizo ningún cambio");
+			} catch (SQLException e1) {
+				System.err.println("ERROR: No se pudieron deshacer los cambios");
+			}
+			return -1;
 		}
 	}
 
@@ -72,9 +82,18 @@ public class AccesoBd {
 			actualiza.setInt(3, socio.getEdad());
 			actualiza.setString(4, socio.getLocalidad());
 			actualiza.setInt(5, socio.getId());
-			return actualiza.executeUpdate();
+			int resultado=actualiza.executeUpdate();
+			conecta.commit();
+			return resultado;
 
 		} catch (SQLException e) {
+			System.err.println("ERROR: Deshaciendo cambios");
+			try {
+				conecta.rollback();
+				System.err.println("No se realizo ningún cambio");
+			} catch (SQLException e1) {
+				System.err.println("ERROR: No se pudieron deshacer los cambios");
+			}
 			return 0;
 		}
 
@@ -85,8 +104,18 @@ public class AccesoBd {
 			String sql = "delete from socio where socioID=?";
 			PreparedStatement borra = conecta.prepareStatement(sql);
 			borra.setInt(1, socio.getId());
-			return borra.executeUpdate();
+			int resultado= borra.executeUpdate();
+			conecta.commit();
+			return resultado;
+		
 		} catch (SQLException e) {
+			System.err.println("ERROR: Deshaciendo cambios");
+			try {
+				conecta.rollback();
+				System.err.println("No se realizo ningún cambio");
+			} catch (SQLException e1) {
+				System.err.println("ERROR: No se pudieron deshacer los cambios");
+			}
 			return 0;
 		}
 	}
