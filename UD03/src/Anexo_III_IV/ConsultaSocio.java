@@ -342,8 +342,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 								JOptionPane.ERROR_MESSAGE);
 						System.out.println(e1.getMessage());
 					}
-				} else
-					;
+				} 
 			}//fin borrar
 			
 			if (e.getSource() == volver) {

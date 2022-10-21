@@ -1,22 +1,14 @@
 package Anexo_V;
  
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SpringLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JTable;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
  
 public class Vista extends JFrame {
  
@@ -174,19 +166,206 @@ public class Vista extends JFrame {
 		// cierre del programa y desconexion de la base de datos
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent we) {
-				try {
-					Modelo.desconectar();
-					System.out.println("desconectado");
-					} catch (SQLException e) {
-					// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				Modelo.desconectar();
+				System.out.println("desconectado");
 						System.exit(0);
 			}
 		});	
     }
  
-    public void conectaControlador(  Controlador c  ){
+    public Container getPanel() {
+		return panel;
+	}
+
+	public void setPanel(Container panel) {
+		this.panel = panel;
+	}
+
+	public JLabel getSocio() {
+		return socio;
+	}
+
+	public void setSocio(JLabel socio) {
+		this.socio = socio;
+	}
+
+	public JLabel getEstatura() {
+		return estatura;
+	}
+
+	public void setEstatura(JLabel estatura) {
+		this.estatura = estatura;
+	}
+
+	public JLabel getEdad() {
+		return edad;
+	}
+
+	public void setEdad(JLabel edad) {
+		this.edad = edad;
+	}
+
+	public JLabel getLocalidad() {
+		return localidad;
+	}
+
+	public void setLocalidad(JLabel localidad) {
+		this.localidad = localidad;
+	}
+
+	public JLabel getCm() {
+		return cm;
+	}
+
+	public void setCm(JLabel cm) {
+		this.cm = cm;
+	}
+
+	public JLabel getAños() {
+		return años;
+	}
+
+	public void setAños(JLabel años) {
+		this.años = años;
+	}
+
+	public JLabel getTexto() {
+		return texto;
+	}
+
+	public void setTexto(JLabel texto) {
+		this.texto = texto;
+	}
+
+	public JLabel getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(JLabel nombre) {
+		this.nombre = nombre;
+	}
+
+	public JTextField getNombreT() {
+		return nombreT;
+	}
+
+	public void setNombreT(JTextField nombreT) {
+		this.nombreT = nombreT;
+	}
+
+	public JTextField getBuscarT() {
+		return buscarT;
+	}
+
+	public void setBuscarT(JTextField buscarT) {
+		this.buscarT = buscarT;
+	}
+
+	public JTextField getSocioT() {
+		return socioT;
+	}
+
+	public void setSocioT(JTextField socioT) {
+		this.socioT = socioT;
+	}
+
+	public JTextField getEstaturaT() {
+		return estaturaT;
+	}
+
+	public void setEstaturaT(JTextField estaturaT) {
+		this.estaturaT = estaturaT;
+	}
+
+	public JTextField getEdadT() {
+		return edadT;
+	}
+
+	public void setEdadT(JTextField edadT) {
+		this.edadT = edadT;
+	}
+
+	public JTextField getLocalidadT() {
+		return localidadT;
+	}
+
+	public void setLocalidadT(JTextField localidadT) {
+		this.localidadT = localidadT;
+	}
+
+	public JButton getBuscar() {
+		return buscar;
+	}
+
+	public void setBuscar(JButton buscar) {
+		this.buscar = buscar;
+	}
+
+	public JButton getEditar() {
+		return editar;
+	}
+
+	public void setEditar(JButton editar) {
+		this.editar = editar;
+	}
+
+	public JButton getAnterior() {
+		return anterior;
+	}
+
+	public void setAnterior(JButton anterior) {
+		this.anterior = anterior;
+	}
+
+	public JButton getSiguiente() {
+		return siguiente;
+	}
+
+	public void setSiguiente(JButton siguiente) {
+		this.siguiente = siguiente;
+	}
+
+	public JButton getVolver() {
+		return volver;
+	}
+
+	public void setVolver(JButton volver) {
+		this.volver = volver;
+	}
+
+	public JButton getNuevo() {
+		return nuevo;
+	}
+
+	public void setNuevo(JButton nuevo) {
+		this.nuevo = nuevo;
+	}
+
+	public JButton getConfirmar() {
+		return confirmar;
+	}
+
+	public void setConfirmar(JButton confirmar) {
+		this.confirmar = confirmar;
+	}
+
+	public JButton getActualizar() {
+		return actualizar;
+	}
+
+	public void setActualizar(JButton actualizar) {
+		this.actualizar = actualizar;
+	}
+
+	public JButton getBorrar() {
+		return borrar;
+	}
+
+	public void setBorrar(JButton borrar) {
+		this.borrar = borrar;
+	}
+
+	public void conectaControlador(  Controlador c  ){
     	buscar.addActionListener(c);
     	buscar.setActionCommand("BUSCAR");
     	editar.addActionListener(c);

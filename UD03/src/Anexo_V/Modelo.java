@@ -20,34 +20,57 @@ public class Modelo {
 	static ResultSet reg;
 	private static Connection conecta;
 
-	public void conectar() throws SQLException, ClassNotFoundException {
-		Class.forName(driver);
-		conecta = DriverManager.getConnection(url, username, password);
-		conecta.setAutoCommit(false);;
-	}
-
-	public static void desconectar() throws SQLException {
-		if (conecta != null) {
-			conecta.close();
-			conecta.setAutoCommit(true);
+	public void conectar() {
+		try {
+			Class.forName(driver);
+			conecta = DriverManager.getConnection(url, username, password);
+			conecta.setAutoCommit(false);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
-	public ResultSet consulta(String localidad) throws SQLException {
-		CallableStatement consulta = null;
-		consulta=conecta.prepareCall("CALL buscaSocios(?)", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		consulta.setString(1,localidad);
-		ResultSet reg = consulta.executeQuery();
-		return reg;
+	public static void desconectar() {
+		if (conecta != null) {
+			try {
+				conecta.close();
+				conecta.setAutoCommit(true);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
-	public ResultSet limpia() throws SQLException {
+	public ResultSet consulta(String localidad)  {
+		CallableStatement consulta = null;
+		try {
+			consulta=conecta.prepareCall("CALL buscaSocios(?)", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			consulta.setString(1,localidad);
+			ResultSet reg = consulta.executeQuery();
+			return reg;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public ResultSet limpia() {
 		
 		PreparedStatement consulta;
 		String cadenaSQL = "select * from socio where socioID=0";
-		consulta = conecta.prepareStatement(cadenaSQL, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		ResultSet reg = consulta.executeQuery();
-		return reg;
+		try {
+			consulta = conecta.prepareStatement(cadenaSQL, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			ResultSet reg = consulta.executeQuery();
+			return reg;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 
 	public int nuevo(Socio socio) {
