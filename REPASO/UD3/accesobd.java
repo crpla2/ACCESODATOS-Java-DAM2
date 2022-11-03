@@ -98,3 +98,33 @@ public class accesobd {
 		
 	}
 }
+/*
+ * CRUD:
+ * create:"INSERT INTO socio VALUES (((select max(socioID)from socio s)+1),?,?,?,?)"
+ * read:"SELECT * FROM socio WHERE socioID=0"
+ * update:"UPDATE socio SET nombre=?, estatura=?, edad=?, localidad=? WHERE socioID=?"
+ * delete:"DELETE FROM libro WHERE isbn=?"
+ * 
+ * FUNC:"SELECT totalEmpleados(?) "
+ *  	CallableStatement proc = conn.prepareCall(StringSQL);
+ * 		proc.setInt(1, 110); 
+ *  	ResultSet rs=proc.executeQuery(); 
+ *   if (rs.next()) {...}
+ *   
+ * 		solo parametros de entrada
+ * 		
+ * PROC:"CALL pesetasAeuros(?) "
+ * 		CallableStatement proc = conn.prepareCall(StringSQL);
+ * 		 double cantidad = 25000; // Quiero convertir 25000 pesetas a euros
+         //Acoplamiento. El par�metro o argumento 1� es un real, en concreto cantidad
+         proc.setDouble(1,cantidad); 
+         // El par�metro 1� tambi�n es a su vez de salida y evidentemente de tipo real
+         proc.registerOutParameter(1, Types.DECIMAL);
+         // Ejecuto el procedimiento
+         proc.execute();            
+         System.out.print("Convertir 25.000 pesetas a euros -->");
+         // Imprimo el argumento de salida
+         System.out.println(proc.getDouble(1));     
+ * 
+ * 
+ */
