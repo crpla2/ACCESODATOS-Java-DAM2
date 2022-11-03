@@ -101,7 +101,7 @@ public class accesobd {
 /*
  * CRUD:
  * create:"INSERT INTO socio VALUES (((select max(socioID)from socio s)+1),?,?,?,?)"
- * read:"SELECT * FROM socio WHERE socioID=0"
+ * read:"SELECT * FROM socio WHERE socioID=?"
  * update:"UPDATE socio SET nombre=?, estatura=?, edad=?, localidad=? WHERE socioID=?"
  * delete:"DELETE FROM libro WHERE isbn=?"
  * 
