@@ -78,6 +78,8 @@ public class Ejercicio09repaso {
 			
 			raf.writeInt(20);
 			raf.writeDouble(22.5);
+			raf.seek(raf.length()-1);
+			raf.writeInt(1);
 			raf.close();
 			raf = new RandomAccessFile("Ficheros/random.dat", "r");
 			raf.seek(0);
@@ -105,7 +107,8 @@ public class Ejercicio09repaso {
 				name+=raf.readChar();
 			}
 			System.out.print(name.trim());
-			raf.seek(19*56+4);
+			raf.seek(raf.length()-1);
+			raf.writeInt(1);
 			 name="";
 			for (int k = 0; k < 20; k++) {
 				name+=raf.readChar();

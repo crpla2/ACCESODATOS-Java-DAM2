@@ -4,12 +4,12 @@ import java.sql.SQLException;
 public class Main {
 
 	public static void main(String[] args) throws SQLException {
-		String url ="jdbc:mysql://localhost:" + 3306 + "/" + "tutorialDb" + "?useSSL=false" + "&serverTimezone=CET";
+		String url ="jdbc:mysql://localhost:" + 3309 + "/" + "tutorialDb" + "?useSSL=false" + "&serverTimezone=CET";
 			BasicConnectionPool connectionPool = BasicConnectionPool.create(url, "root", "rootroot");
 			
 			Connection con1 = connectionPool.getConnection();
 			Connection con2 = connectionPool.getConnection();
-			System.out.println("Tamaño Pool conexiones: " + connectionPool.getConnectionPool().size());
+			System.out.println("Tamaï¿½o Pool conexiones: " + connectionPool.getConnectionPool().size());
 			System.out.println("Numero conexiones utilizadas: " +connectionPool.getUsedConnections().size());
      		System.out.println(connectionPool.getUsedConnections());
 			Connection con3 = connectionPool.getConnection();
