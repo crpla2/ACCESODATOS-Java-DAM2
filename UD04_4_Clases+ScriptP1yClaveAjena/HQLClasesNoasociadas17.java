@@ -44,7 +44,7 @@ public class HQLClasesNoasociadas17 {
 		Query cons = session.createQuery(hql);
 		Object[] resultado = (Object[]) cons.uniqueResult();
 		System.out.printf("Salario medio: %.2f%n", resultado[0]);
-		System.out.printf("Número de empleados: %d%n", resultado[1]);
+		System.out.printf("Nï¿½mero de empleados: %d%n", resultado[1]);
 		// mostrar el salario medio y el numero de empleados
 		// por departamento
 		hql = "select e.departamentos.deptNo, avg(salario), " + " count(empNo) from Empleados e "
@@ -57,7 +57,7 @@ public class HQLClasesNoasociadas17 {
 			Byte depar = (Byte) par[0];
 			Double media = (Double) par[1];
 			Long cuenta = (Long) par[2];
-			System.out.printf("Dep: %d, Media: %.2f, Nº emp: %d %n", depar, media, cuenta);
+			System.out.printf("Dep: %d, Media: %.2f, Nï¿½ emp: %d %n", depar, media, cuenta);
 		}
 		System.out.println("===============================================");
 

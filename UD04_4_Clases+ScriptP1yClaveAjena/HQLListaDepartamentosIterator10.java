@@ -13,14 +13,14 @@ public class HQLListaDepartamentosIterator10 {
 		SessionFactory sesion = SessionFactoryUtil.getSessionFactory();
 		Session session = sesion.openSession();
 		/*
-		 * El método iterate() devuelve un interador Java para recuperar los resultados de la consulta, que en 
+		 * El mï¿½todo iterate() devuelve un interador Java para recuperar los resultados de la consulta, que en 
 		 * el caso de Hibernate ejecuta la consulta obteniendo solo los ids de las entidades y en cada llamada a
 		 * iterator.next ejecuta la consulta propia para obtener la entidad completa
-		 * --> Mayor cantidad de accesos, más tiempo pero no es necesario que todos los objetos estén cargados en memoria a la vez
-		 * El método setFetchSize fija la cantidad de resultados a recuperar en cada acceso			
+		 * --> Mayor cantidad de accesos, mï¿½s tiempo pero no es necesario que todos los objetos estï¿½n cargados en memoria a la vez
+		 * El mï¿½todo setFetchSize fija la cantidad de resultados a recuperar en cada acceso			
 		 */
 		Query q = session.createQuery("from Departamentos");
-		q.setFetchSize(10); 
+		//q.setFetchSize(10); 
 		Iterator iter = q.iterate();
 		
 		while (iter.hasNext())

@@ -8,8 +8,8 @@ public class Socio implements java.io.Serializable {
 
 	private int socioId;
 	private String nombre;
-	private Integer estatura;
-	private Integer edad;
+	private int estatura;
+	private int edad;
 	private String localidad;
 
 	public Socio() {
@@ -18,7 +18,13 @@ public class Socio implements java.io.Serializable {
 	public Socio(int socioId) {
 		this.socioId = socioId;
 	}
-
+	public Socio( String nombre, Integer estatura, Integer edad, String localidad) {
+	
+		this.nombre = nombre;
+		this.estatura = estatura;
+		this.edad = edad;
+		this.localidad = localidad;
+	}
 	public Socio(int socioId, String nombre, Integer estatura, Integer edad, String localidad) {
 		this.socioId = socioId;
 		this.nombre = nombre;
