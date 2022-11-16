@@ -195,17 +195,24 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 		
 			if (e.getSource() == buscar) {
 				buscado = true;
-				//
+				//	
+				try {
+					lista = abd3.consulta(buscarT.getText());
+					ultimo =lista.indexOf(lista.get(lista.size()-1));
+					if (ultimo < 1) {
+						JOptionPane.showMessageDialog(panel, "No existen registros en  " + buscarT.getText(), "error",
+								JOptionPane.INFORMATION_MESSAGE);
+						anterior.setEnabled(false);
+						siguiente.setEnabled(false);
+					} else {
+						posicion=0;
+					}
 					
-				lista = abd3.consulta(buscarT.getText());
-				ultimo =lista.indexOf(lista.get(lista.size()-1));
-				if (ultimo < 1) {
+				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(panel, "No existen registros en  " + buscarT.getText(), "error",
 							JOptionPane.INFORMATION_MESSAGE);
 					anterior.setEnabled(false);
 					siguiente.setEnabled(false);
-				} else {
-					posicion=0;
 				}
 			} // fin buscar
 			
@@ -228,25 +235,27 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 			} // fin anterior
 				
 			if (e.getSource() == editar) {
-				if (!buscado)
+				
 					texto.setText("");
 					volver.setVisible(true);
 					nombreT.setEditable(true);
 					estaturaT.setEditable(true);
 					edadT.setEditable(true);
 					localidadT.setEditable(true);
-					editar.setVisible(false);
+					editar.setVisible(true);
 					actualizar.setVisible(true);
 					borrar.setVisible(true);
 					nuevo.setVisible(true);
+					buscar.setVisible(true);
+				
 			}//fin editar
 			
 		if (e.getSource() == nuevo) {
 				lista = abd3.limpia();
 				socioT.setText("");
 				texto.setText("");
-				nombreT.setEditable(true);
 				nombreT.setText("");
+				nombreT.setEditable(true);
 				estaturaT.setEditable(true);
 				estaturaT.setText("");
 				edadT.setEditable(true);
@@ -264,8 +273,8 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 			}//fin nuevo
 
 				if (e.getSource() == confirmar) {
-				Socio socioN = new Socio(nombreT.getText(), Integer.parseInt(estaturaT.getText().trim()),
-						Integer.parseInt(edadT.getText().trim()), localidadT.getText());
+				Socio socioN = new Socio(nombreT.getText(), Integer.parseInt(estaturaT.getText()),
+						Integer.parseInt(edadT.getText()), localidadT.getText());
 				try {
 					if (abd3.nuevo(socioN) == 1) {
 
@@ -313,7 +322,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 
 				}
 			}//fin actualizar
-		/*	
+		
 			if (e.getSource() == borrar) {
 				JOptionPane pane = new JOptionPane();
 				@SuppressWarnings("static-access")
@@ -347,7 +356,7 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 					}
 				} 
 			}//fin borrar
-			*/
+			
 			if (e.getSource() == volver) {
 				lista = abd3.limpia();
 				texto.setText("");
@@ -372,25 +381,26 @@ public class ConsultaSocio extends JFrame implements ActionListener {
 				volver.setVisible(false);
 			}//fin volver
 			
-
 			//recogida de datos y muestra de los mismos en la ventana:
-			if (lista.get(posicion).getSocioId()==0)
-				socioT.setText(" ");
-			else
+			if (lista.size()==0) {
+				socioT.setText("");
+				nombreT.setText("");
+				estaturaT.setText("");
+				edadT.setText("");
+				localidadT.setText("");
+				}
+			
+			else {
 				socioT.setText(String.valueOf(lista.get(posicion).getSocioId()));
-			nombreT.setText(lista.get(posicion).getNombre());
-			if (lista.get(posicion).getEstatura()==0)
-				estaturaT.setText(" ");
-			else
-				estaturaT.setText(String.valueOf(lista.get(posicion).getEstatura()));
-			if (lista.get(posicion).getEdad()==0)
-				edadT.setText(" ");
-			else
+				nombreT.setText(lista.get(posicion).getNombre());				
+				estaturaT.setText(String.valueOf(lista.get(posicion).getEstatura()));				
 				edadT.setText(String.valueOf(lista.get(posicion).getEdad()));
-			localidadT.setText(lista.get(posicion).getLocalidad());
+				localidadT.setText(lista.get(posicion).getLocalidad());
+			}
+			
 			anterior.setEnabled(true);
 			siguiente.setEnabled(true);
-			if (lista.get(posicion).getSocioId()!=0) 
+			if (lista.size()!=0) 
 				texto.setText("Socio " + String.valueOf(posicion+1) + " de " + String.valueOf(lista.size()));
 		
 	}
