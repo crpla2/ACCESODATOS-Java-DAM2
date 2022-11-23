@@ -4,8 +4,11 @@
  */
 package primero;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -23,20 +26,33 @@ public class formulario extends javax.swing.JFrame {
     public formulario() {
         initComponents();
         
-        String labels1[]={"Elige Departamento"};
-        jComboBoxDepto.removeAllItems();
-        for(String s:labels1)
-            jComboBoxDepto.addItem(s);
-        
+        //Relleno comoboboxes:
         dom1= new DefaultComboBoxModel();
-        
-         
-        String labels2[]={"Elige Director"};
-        jComboBoxDire.removeAllItems();
-        for(String s:labels2)
-            jComboBoxDire.addItem(s);
+        String[]labels= new String[abd.listaDep().size()+1];
+        labels[0]="Elige Departamento";
+        for (int i = 1; i < abd.listaDep().size(); i++) {
+            labels[i]=abd.listaDep().get(i).getDeptNo()+" / "+abd.listaDep().get(i).getDnombre();   
+        }
+        dom1.removeAllElements();
+        for(String s: labels){
+            dom1.addElement(s);  
+        }
+        jComboBoxDepto.setModel(dom1);
+             
         
         dom2= new DefaultComboBoxModel();
+        String[]labels2= new String[abd.listaDire().size()+1];
+        labels2[0]="Elige Director";
+        for (int i = 1; i < abd.listaDire().size(); i++) {
+            labels2[i]=abd.listaDire().get(i).getEmpNo()+" / "+abd.listaDire().get(i).getApellido();         
+        }
+        dom2.removeAllElements();
+        for(String s: labels2){
+            dom2.addElement(s);    
+        }
+        jComboBoxDire.setModel(dom2);
+        //
+        
     }
 
     /**
@@ -276,8 +292,28 @@ public class formulario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsertActionPerformed
-        // TODO add your handling code here:
-    }
+     Empleados e= new Empleados();
+    try {
+     e.setEmpNo((short)Integer.parseInt(jTextFieldEmp.getText()));
+     e.setApellido(jTextFieldApe.getText());
+     String[] s=dom1.getSelectedItem().toString().split(" / ");
+     e.setDepartamentos(new Departamentos((byte)Integer.parseInt(s[0])));
+     s=dom2.getSelectedItem().toString().split(" / ");
+     e.setDir((short)Integer.parseInt(s[0]));
+     e.setFechaAlt(Date.valueOf(jTextFieldFecha.getText()));
+     e.setOficio(jTextFieldOfi.getText());
+     e.setSalario(Float.parseFloat(jTextFieldSal.getText()));
+     e.setComision(null);
+     
+    	 
+			System.out.println(abd.nuevo(e));
+    	} catch (NumberFormatException e1) {	
+    		JOptionPane.showMessageDialog(null, "Todos los campos deben de completarse a excepción de la comisión.", "ERROR",JOptionPane.WARNING_MESSAGE);
+		} catch (Exception e1) {
+			
+			JOptionPane.showMessageDialog(null, "Existe un empleado con el mismo número.", "ERROR",JOptionPane.WARNING_MESSAGE);
+		}
+      }
 
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
         // TODO add your handling code here:
@@ -294,6 +330,7 @@ public class formulario extends javax.swing.JFrame {
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
       jTextFieldFecha.setText(sdf.format(e.getFechaAlt()));
 	} catch (NullPointerException e) {
+		System.out.println(e.getMessage());
 		JOptionPane.showMessageDialog(null, "El empleado no existe", "ERROR",JOptionPane.WARNING_MESSAGE);
 	} catch (NumberFormatException e) {
 		JOptionPane.showMessageDialog(null, "Debe de introducir un número de empleado", "ERROR",JOptionPane.WARNING_MESSAGE);
@@ -370,7 +407,8 @@ public class formulario extends javax.swing.JFrame {
             }
         });
     }
-
+    
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonClean;
     private javax.swing.JButton jButtonConsulta;

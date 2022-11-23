@@ -23,25 +23,41 @@ public class AccesoBD {
 	}
 
 	public Empleados consulta(short numero) {
-		Empleados e= (Empleados) session.get(Empleados.class, (short)numero);
-		return e;
+		
+		try {
+			Empleados e= (Empleados) session.get(Empleados.class, (short)numero);
+			return e;
+		} catch (Exception e) {
+		System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
 		
 	}
-//
-//	public List<Socio> limpia() {
-//		List<Socio> lista = new ArrayList();
-//		return lista;
-//	}
-//
-//	public int nuevo(Socio socio) {
-//		Query q = session.createQuery("select max(socioId) from Socio");
-//		int id = (int) q.uniqueResult();
-//		tx = session.beginTransaction();
-//		socio.setSocioId(id + 1);
-//		session.save(socio);
-//		tx.commit();
-//		return 1;
-//	}
+	
+	public ArrayList<Departamentos> listaDep(){
+		Query q = session.createQuery("from Departamentos");
+		List <Departamentos> lista = q.list();
+		return (ArrayList<Departamentos>) lista;
+	}
+	
+	public ArrayList<Empleados> listaDire(){
+		Query q = session.createQuery("from Empleados");
+				List <Empleados> lista = q.list();
+		return (ArrayList<Empleados>) lista;
+	}
+
+	public int nuevo(Empleados empleado) {
+		try {
+		tx = session.beginTransaction();
+		session.save(empleado);
+		tx.commit();
+		return 1;}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return 0;
+	}
 //
 //	public int actualizar(Socio socio) {
 //		try {
