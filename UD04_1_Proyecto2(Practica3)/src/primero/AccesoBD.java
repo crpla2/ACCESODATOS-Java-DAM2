@@ -58,39 +58,31 @@ public class AccesoBD {
 		}
 		return 0;
 	}
-//
-//	public int actualizar(Socio socio) {
-//		try {
-//			Socio s = new Socio();
-//			s = (Socio) session.load(Socio.class, (int) socio.getSocioId());
-//			s.setEdad(socio.getSocioId());
-//			s.setNombre(socio.getNombre());
-//			s.setEstatura(socio.getEstatura());
-//			s.setEdad(socio.getEdad());
-//			s.setLocalidad(socio.getLocalidad());
-//			tx = session.beginTransaction();
-//			session.update(s);
-//			tx.commit();
-//			return 1;
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//			return -1;
-//		}
-//
-//	}
-//
-//	public int borrar(Socio socio) {
-//		try {
-//			Socio s = (Socio) session.load(Socio.class, (int) socio.getSocioId());
-//			tx = session.beginTransaction();
-//			session.delete(s);
-//			tx.commit();
-//			return 1;
-//		} catch (Exception e) {
-//			tx.rollback();
-//			System.err.println("No se realizo ningún cambio");
-//			return 0;
-//		}
-//	}
+
+	public int actualizar(Empleados empleado) {
+		try {
+			
+			session.update(empleado);
+			tx.commit();
+			return 1;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return -1;
+		}
+
+	}
+
+	public int borrar(Empleados empleado) {
+		try {
+			tx = session.beginTransaction();
+			session.delete(empleado);
+			tx.commit();
+			return 1;
+		} catch (Exception e) {
+			tx.rollback();
+			System.err.println("No se realizo ningún cambio");
+			return 0;
+		}
+	}
 
 }
