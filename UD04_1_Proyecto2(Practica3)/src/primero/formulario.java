@@ -9,7 +9,9 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
+import javax.persistence.EntityExistsException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -41,10 +43,10 @@ public class formulario extends javax.swing.JFrame {
 		jComboBoxDepto.setModel(dom1);
 
 		dom2 = new DefaultComboBoxModel();
-		String[] labels2 = new String[abd.listaDire().size() + 1];
+		String[] labels2 = new String[abd.listaEmp().size() + 1];
 		labels2[0] = "Elige Director";
-		for (int i = 1; i < abd.listaDire().size(); i++) {
-			labels2[i] = abd.listaDire().get(i).getEmpNo() + " / " + abd.listaDire().get(i).getApellido();
+		for (int i = 1; i < abd.listaEmp().size(); i++) {
+			labels2[i] = abd.listaEmp().get(i).getEmpNo() + " / " + abd.listaEmp().get(i).getApellido();
 		}
 		dom2.removeAllElements();
 		for (String s : labels2) {
@@ -306,19 +308,22 @@ public class formulario extends javax.swing.JFrame {
 			e.setOficio(jTextFieldOfi.getText());
 			e.setSalario(Float.parseFloat(jTextFieldSal.getText()));
 			e.setComision(null);
+
+			int resultado = abd.nuevo(e);
 			
-			int resultado=abd.nuevo(e);
-			if(resultado==1)
-				JOptionPane.showMessageDialog(null, "Se ha insertado correctamente",
-						"INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
-			if(resultado==0)
-				JOptionPane.showMessageDialog(null, "No se ha insertado ningún registro",
-						"INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+			if (resultado == 1)
+				JOptionPane.showMessageDialog(null, "Se ha insertado correctamente", "INFORMACIÓN",
+						JOptionPane.INFORMATION_MESSAGE);
+			if (resultado == 0)
+				JOptionPane.showMessageDialog(null, "No se ha insertado ningún registro", "INFORMACIÓN",
+						JOptionPane.INFORMATION_MESSAGE);
+			
+			limpiar();
 		} catch (NumberFormatException e1) {
 			JOptionPane.showMessageDialog(null, "Todos los campos deben de completarse a excepción de la comisión.",
 					"ERROR", JOptionPane.WARNING_MESSAGE);
 		} catch (Exception e1) {
-
+			e1.getStackTrace();
 			JOptionPane.showMessageDialog(null, "Existe un empleado con el mismo número.", "ERROR",
 					JOptionPane.WARNING_MESSAGE);
 		}
@@ -326,41 +331,49 @@ public class formulario extends javax.swing.JFrame {
 
 	private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonUpdateActionPerformed
 		try {
-		Empleados e = abd.consulta((short) Integer.parseInt(jTextFieldEmp.getText()));
-		e.setApellido(jTextFieldApe.getText());
-		String[] s = dom1.getSelectedItem().toString().split(" / ");
-		e.setDepartamentos(new Departamentos((byte) Integer.parseInt(s[0])));
-		s = dom2.getSelectedItem().toString().split(" / ");
-		e.setDir((short) Integer.parseInt(s[0]));
-		e.setFechaAlt(Date.valueOf(jTextFieldFecha.getText()));
-		e.setOficio(jTextFieldOfi.getText());
-		e.setSalario(Float.parseFloat(jTextFieldSal.getText()));
-		e.setComision(null);
-		
-		int resultado=abd.actualizar(e);
-		if(resultado==1)
-			JOptionPane.showMessageDialog(null, "Se ha insertado correctamente",
-					"INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
-		if(resultado==0)
-			JOptionPane.showMessageDialog(null, "No se ha insertado ningún registro",
-					"INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
-	} catch (NumberFormatException e1) {
-		JOptionPane.showMessageDialog(null, "Todos los campos deben de completarse a excepción de la comisión.",
-				"ERROR", JOptionPane.WARNING_MESSAGE);
-	} 
-		
+			Empleados e = abd.consultaE((short) Integer.parseInt(jTextFieldEmp.getText()));
+			e.setApellido(jTextFieldApe.getText());
+			String[] s = dom1.getSelectedItem().toString().split(" / ");
+			e.setDepartamentos(new Departamentos((byte) Integer.parseInt(s[0])));
+			s = dom2.getSelectedItem().toString().split(" / ");
+			e.setDir((short) Integer.parseInt(s[0]));
+			e.setFechaAlt(Date.valueOf(jTextFieldFecha.getText()));
+			e.setOficio(jTextFieldOfi.getText());
+			e.setSalario(Float.parseFloat(jTextFieldSal.getText()));
+			e.setComision(null);
+
+			int resultado = abd.actualizar(e);
+			if (resultado == 1)
+				JOptionPane.showMessageDialog(null, "Se ha insertado correctamente", "INFORMACIÓN",
+						JOptionPane.INFORMATION_MESSAGE);
+			if (resultado == 0)
+				JOptionPane.showMessageDialog(null, "No se ha insertado ningún registro", "INFORMACIÓN",
+						JOptionPane.INFORMATION_MESSAGE);
+			limpiar();
+		} catch (NumberFormatException e1) {
+			JOptionPane.showMessageDialog(null, "Todos los campos deben de completarse a excepción de la comisión.",
+					"ERROR", JOptionPane.WARNING_MESSAGE);
+		}
+
 	}
 
 	private void jButtonConsultaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonConsultaActionPerformed
 		try {
-			Empleados e = abd.consulta((short) Integer.parseInt(jTextFieldEmp.getText()));
-			jTextFieldEmp.setText(String.valueOf(e.getEmpNo()));
+			Empleados e = abd.consultaE((short) Integer.parseInt(jTextFieldEmp.getText()));
+			jTextFieldEmp.setText(String.valueOf((int) e.getEmpNo()));
 			jTextFieldApe.setText(e.getApellido());
 			jTextFieldCom.setText(String.valueOf(e.getComision()));
 			jTextFieldOfi.setText(e.getOficio());
 			jTextFieldSal.setText(String.valueOf(e.getSalario()));
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			jTextFieldFecha.setText(sdf.format(e.getFechaAlt()));
+
+			int i = abd.listaDep().indexOf(abd.consultaD(e.getDepartamentos().getDeptNo()));
+			jComboBoxDepto.setSelectedIndex(i);
+
+			int j = abd.listaEmp().indexOf(abd.consultaE(e.getDir()));
+			jComboBoxDire.setSelectedIndex(j);
+
 		} catch (NullPointerException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
@@ -374,19 +387,44 @@ public class formulario extends javax.swing.JFrame {
 
 	private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonDeleteActionPerformed
 		try {
-			Empleados e = abd.consulta((short) Integer.parseInt(jTextFieldEmp.getText()));
-			int res=JOptionPane.showConfirmDialog(null, "Se va a proceder a borrar a "+e.getApellido()+" ¿desea continuar?",
-					"ATENCIÓN", JOptionPane.YES_NO_CANCEL_OPTION);
-			System.out.println(res);
-			if(abd.borrar(e)==1)
-				JOptionPane.showMessageDialog(null, "Se ha borrado correctamente",
-						"INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
-			if(abd.borrar(e)==0)
-				JOptionPane.showMessageDialog(null, "No se ha borrado ningún registro",
-						"INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+		
+			ArrayList<Empleados> lista = abd.listaEmp();
+			String s = "";
+			for (Empleados e : lista) {
+				s += e.getDir() + " ";
+			}
+
+			Empleados e = abd.consultaE((short) Integer.parseInt(jTextFieldEmp.getText()));
+			
+			String director=e.getEmpNo() + " / " + e.getApellido();
+			
+			int res = JOptionPane.showConfirmDialog(null,
+					"Se va a proceder a borrar a " + e.getApellido() + " ¿desea continuar?", "ATENCIÓN",
+					JOptionPane.YES_NO_OPTION);
+			if (res != 0)
+				throw new Exception();
+			
+			if (s.contains(String.valueOf((int) e.getDir())))
+				throw new EntityExistsException();
+
+			if (abd.borrar(e) == 1)
+				JOptionPane.showMessageDialog(null, "Se ha borrado correctamente", "INFORMACIÓN",
+						JOptionPane.INFORMATION_MESSAGE);
+			if (abd.borrar(e) == 0)
+				JOptionPane.showMessageDialog(null, "No se ha borrado ningún registro", "INFORMACIÓN",
+						JOptionPane.INFORMATION_MESSAGE);
+			
+			
+			limpiar();
+		} catch (EntityExistsException e) {
+			JOptionPane.showMessageDialog(null, "No no se puede borrar un empleado que sea jefe de otro", "ATENCIÓN",
+					JOptionPane.WARNING_MESSAGE);
+
 		} catch (NullPointerException e) {
-			JOptionPane.showMessageDialog(null, "No existe ningun empleado con ese id",
-					"INFORMACIÓN", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "No existe ningun empleado con ese id", "ATENCIÓN",
+					JOptionPane.WARNING_MESSAGE);
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, "Operacion cancelada", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
 		}
 
 	}// GEN-LAST:event_jButtonDeleteActionPerformed
@@ -400,16 +438,22 @@ public class formulario extends javax.swing.JFrame {
 	}// GEN-LAST:event_jComboBoxDireItemStateChanged
 
 	private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonExitActionPerformed
-		// TODO add your handling code here:
+		System.exit(0);
 	}
 
 	private void jButtonCleanActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonCleanActionPerformed
+		limpiar();
+	}
+
+	private void limpiar() {
 		jTextFieldEmp.setText("");
 		jTextFieldApe.setText("");
 		jTextFieldCom.setText("");
 		jTextFieldOfi.setText("");
 		jTextFieldSal.setText("");
 		jTextFieldFecha.setText("");
+		jComboBoxDepto.setSelectedIndex(0);
+		jComboBoxDire.setSelectedIndex(0);
 	}
 
 	/**

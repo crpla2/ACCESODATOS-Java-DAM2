@@ -22,38 +22,51 @@ public class AccesoBD {
 		session.close();
 	}
 
-	public Empleados consulta(short numero) {
-		
+	public Empleados consultaE(short numero) {
+
 		try {
-			Empleados e= (Empleados) session.get(Empleados.class, (short)numero);
+			Empleados e = (Empleados) session.get(Empleados.class, (short) numero);
 			return e;
 		} catch (Exception e) {
-		System.out.println(e.getMessage());
+			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
-		
+
 	}
-	
-	public ArrayList<Departamentos> listaDep(){
+
+	public Departamentos consultaD(byte numero) {
+
+		try {
+			Departamentos e = (Departamentos) session.get(Departamentos.class, (byte) numero);
+			return e;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
+	public ArrayList<Departamentos> listaDep() {
 		Query q = session.createQuery("from Departamentos");
-		List <Departamentos> lista = q.list();
+		List<Departamentos> lista = q.list();
 		return (ArrayList<Departamentos>) lista;
 	}
-	
-	public ArrayList<Empleados> listaDire(){
+
+	public ArrayList<Empleados> listaEmp() {
 		Query q = session.createQuery("from Empleados");
-				List <Empleados> lista = q.list();
+		List<Empleados> lista = q.list();
 		return (ArrayList<Empleados>) lista;
 	}
 
 	public int nuevo(Empleados empleado) {
 		try {
-		tx = session.beginTransaction();
-		session.save(empleado);
-		tx.commit();
-		return 1;}
-		catch (Exception e) {
+			tx = session.beginTransaction();
+			session.save(empleado);
+			tx.commit();
+			return 1;
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		return 0;
@@ -61,13 +74,13 @@ public class AccesoBD {
 
 	public int actualizar(Empleados empleado) {
 		try {
-			
+			tx = session.beginTransaction();
 			session.update(empleado);
 			tx.commit();
 			return 1;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return -1;
+			e.getStackTrace();
+			return 0;
 		}
 
 	}
