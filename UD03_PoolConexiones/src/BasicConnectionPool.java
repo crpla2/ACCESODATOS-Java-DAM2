@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 public class BasicConnectionPool implements ConnectionPool {
 
     private final String url;
@@ -37,7 +39,14 @@ public class BasicConnectionPool implements ConnectionPool {
 
     @Override
     public Connection getConnection() throws SQLException {
-    	
+
+    	//RESPUESTA PREGUNTA 5 *******************************************************************************************	
+    	if (usedConnections.size()==MAX_POOL_SIZE-1) {
+    		JOptionPane.showMessageDialog(null,"Ultima conexión disponible asignada", "Información de las conexiones",
+    				JOptionPane.INFORMATION_MESSAGE, null);
+    	}
+    	//****************************************************************************************************************	
+
         if (connectionPool.isEmpty()) {
             if (usedConnections.size() < MAX_POOL_SIZE) {
             	if(usedConnections.size()==MAX_POOL_SIZE-1)
