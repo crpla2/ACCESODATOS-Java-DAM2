@@ -11,7 +11,7 @@ public class BasicConnectionPool implements ConnectionPool {
     private final String password;
     private final List<Connection> connectionPool;
     private final List<Connection> usedConnections = new ArrayList<>();
-    private static final int INITIAL_POOL_SIZE = 0;
+    private static final int INITIAL_POOL_SIZE = 3;
     private final int MAX_POOL_SIZE = 5;
 
     public static BasicConnectionPool create(String url, String user, String password) throws SQLException {
@@ -37,8 +37,11 @@ public class BasicConnectionPool implements ConnectionPool {
 
     @Override
     public Connection getConnection() throws SQLException {
+    	
         if (connectionPool.isEmpty()) {
             if (usedConnections.size() < MAX_POOL_SIZE) {
+            	if(usedConnections.size()==MAX_POOL_SIZE-1)
+            		System.out.println("Ultima");
                 connectionPool.add(createConnection(url, user, password));
             } else {
                 throw new RuntimeException("Maximum pool size reached, no available connections!");

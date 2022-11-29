@@ -4,8 +4,8 @@ import java.sql.SQLException;
 public class Main {
 
 	public static void main(String[] args) throws SQLException {
-		String url ="jdbc:mysql://localhost:" + 3309 + "/" + "tutorialDb" + "?useSSL=false" + "&serverTimezone=CET";
-			BasicConnectionPool connectionPool = BasicConnectionPool.create(url, "root", "rootroot");
+		String url ="jdbc:mysql://localhost:" + 3309 + "/" + "baloncesto" + "?useSSL=false" + "&serverTimezone=CET";
+			BasicConnectionPool connectionPool = BasicConnectionPool.create(url, "root", "root");
 			
 			Connection con1 = connectionPool.getConnection();
 			Connection con2 = connectionPool.getConnection();
@@ -16,7 +16,7 @@ public class Main {
 			Connection con4 = connectionPool.getConnection();
 			Connection con5 = connectionPool.getConnection();
 		//	connectionPool.releaseConnection(con4);
-		//	Connection con6 = connectionPool.getConnection();
+			//Connection con6 = connectionPool.getConnection();
 			
 			
 			
