@@ -184,7 +184,7 @@ public class formulario extends javax.swing.JFrame {
 
 		jLabelFecha.setText("FECHA ALTA:");
 
-		jLabelFormatoFecha.setText("(yyy-MM-dd)");
+		jLabelFormatoFecha.setText("(yyyy-MM-dd)");
 
 		jComboBoxDepto.setModel(
 				new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -404,7 +404,7 @@ public class formulario extends javax.swing.JFrame {
 			if (res != 0)
 				throw new Exception();
 			
-			if (s.contains(String.valueOf((int) e.getDir())))
+			if (s.contains(String.valueOf((int) e.getEmpNo())))
 				throw new EntityExistsException();
 
 			if (abd.borrar(e) == 1)

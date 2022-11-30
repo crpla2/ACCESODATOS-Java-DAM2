@@ -17,9 +17,8 @@ public class ProgramaEquiposyJugadores {
 		System.out.println("Número de equipos: " + lista.size());
 		System.out.println("=============================");
 		for (Equipos eq : lista) {
-			Equipos e = (Equipos) session.get(Equipos.class, (String) eq.getNombre());
-			System.out.println("Equipo: " + e.getNombre());
-			for(Object o:e.getJugadoreses()) {
+			System.out.println("Equipo: " + eq.getNombre());
+			for(Object o:eq.getJugadoreses()) {
 				String s="";
 				Jugadores j=(Jugadores)o;
 				s=j.getCodigo()+", "+j.getNombre();				
