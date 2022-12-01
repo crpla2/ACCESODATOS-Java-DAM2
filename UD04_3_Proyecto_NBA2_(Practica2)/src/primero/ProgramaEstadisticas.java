@@ -1,10 +1,7 @@
 package primero;
 
-import java.util.Iterator;
 import java.util.Scanner;
-import java.util.TreeSet;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
