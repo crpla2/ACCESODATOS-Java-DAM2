@@ -45,6 +45,7 @@ public class AccesoBd {
 	}
 
 	public int nuevo(Socio socio) {
+		try {
 		Query q = session.createQuery("select max(socioId) from Socio");
 		int id = (int) q.uniqueResult();
 		tx = session.beginTransaction();
@@ -52,6 +53,10 @@ public class AccesoBd {
 		session.save(socio);
 		tx.commit();
 		return 1;
+		} catch (Exception e) {
+			tx.rollback();
+			return -1;
+		}
 	}
 
 	public int actualizar(Socio socio) {
@@ -68,7 +73,7 @@ public class AccesoBd {
 			tx.commit();
 			return 1;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			tx.rollback();
 			return -1;
 		}
 
