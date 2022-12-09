@@ -2,6 +2,7 @@ package ejemplo1;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -100,7 +101,7 @@ public class AccesoBdatos {
 	} // de modificarDepartamento
 	
 	public void demoJPQL() {
-		
+		/*
 		Query q1 = em.createQuery("SELECT COUNT(d) FROM DepartamentoEntity d");
         System.out.println("Total Departamentos: " + q1.getSingleResult());
         //
@@ -122,7 +123,7 @@ public class AccesoBdatos {
 	            System.out.println(
 	            "Nombre :  " + r3[0] + ", Localidad: " + r3[1]);
 	    }    
-	    //*/
+	    //
 	      TypedQuery<Object[]>tq4 =
 		            em.createQuery("SELECT d.nombre, d.localidad FROM DepartamentoEntity d"
 		            		+ " WHERE d.dptoId != :n", Object[].class);
@@ -131,8 +132,33 @@ public class AccesoBdatos {
 		        for (Object[] r4 : l4) {
 		            System.out.println(
 		            "Nombre :  " + r4[0] + ", Localidad: " + r4[1]);
-		    }     
-	     
+		    }   */  
+/****EJERCICIO 8:**********************************/  
+		 TypedQuery<EmpleadoEntity> TQ;
+		 	TQ=em.createQuery("SELECT e FROM EmpleadoEntity e",EmpleadoEntity.class);
+		 List<EmpleadoEntity> lista= TQ.getResultList();
+		 /****1*****/
+		 for(EmpleadoEntity empleado : lista) {
+			 System.out.println(empleado.getNombre()+" - "+empleado.getAlta());
+		 }
+		 /****2*****/
+		 System.out.println();
+		 for(EmpleadoEntity empleado:lista) {
+			 if(empleado.getNombre().toLowerCase().contains("carrera"))
+				 System.out.println(empleado.getNombre()+" - "+ empleado.getAlta());
+		 }
+		 System.out.println();
+		 /****3*****/
+		 for(EmpleadoEntity empleado:lista) {
+			 if(empleado.getDepartamento().getNombre().equalsIgnoreCase("I+D")&&empleado.getOficio().equalsIgnoreCase("Empleado"))
+				 System.out.println(empleado.getNombre()+" - "+ empleado.getOficio()+" - "+empleado.getDepartamento().getNombre());
+		 }
+		 System.out.println();
+		 /****4*****/
+		 for(EmpleadoEntity empleado:lista) {
+			 if((empleado.getAlta().compareTo(new Date(2002,12,31)))<0)
+				 System.out.println(empleado.getNombre()+" - "+ empleado.getAlta());
+		 }
 	}// de demoJPQL
 //--------------------------------------------------------------------------------------------------------------
 	
