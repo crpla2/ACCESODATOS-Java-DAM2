@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -134,31 +135,96 @@ public class AccesoBdatos {
 		            "Nombre :  " + r4[0] + ", Localidad: " + r4[1]);
 		    }   */  
 /****EJERCICIO 8:**********************************/  
-		 TypedQuery<EmpleadoEntity> TQ;
-		 	TQ=em.createQuery("SELECT e FROM EmpleadoEntity e",EmpleadoEntity.class);
-		 List<EmpleadoEntity> lista= TQ.getResultList();
+		 TypedQuery<EmpleadoEntity> TQEmp;
+		 	TQEmp=em.createQuery("SELECT e "
+		 					+ "FROM EmpleadoEntity e"
+		 					,EmpleadoEntity.class);
+		 List<EmpleadoEntity> listaEmp= TQEmp.getResultList();
+		 
+		 TypedQuery<DepartamentoEntity> TQDep;
+		 TQDep=em.createQuery("SELECT d "
+		 					+ "FROM DepartamentoEntity d "
+		 					+ "ORDER BY d.nombre",DepartamentoEntity.class);
+		 List<DepartamentoEntity>listaDep=TQDep.getResultList();
 		 /****1*****/
-		 for(EmpleadoEntity empleado : lista) {
+		 for(EmpleadoEntity empleado : listaEmp) {
 			 System.out.println(empleado.getNombre()+" - "+empleado.getAlta());
 		 }
 		 /****2*****/
 		 System.out.println();
-		 for(EmpleadoEntity empleado:lista) {
+		 for(EmpleadoEntity empleado:listaEmp) {
 			 if(empleado.getNombre().toLowerCase().contains("carrera"))
 				 System.out.println(empleado.getNombre()+" - "+ empleado.getAlta());
 		 }
 		 System.out.println();
 		 /****3*****/
-		 for(EmpleadoEntity empleado:lista) {
+		 for(EmpleadoEntity empleado:listaEmp) {
 			 if(empleado.getDepartamento().getNombre().equalsIgnoreCase("I+D")&&empleado.getOficio().equalsIgnoreCase("Empleado"))
 				 System.out.println(empleado.getNombre()+" - "+ empleado.getOficio()+" - "+empleado.getDepartamento().getNombre());
 		 }
 		 System.out.println();
 		 /****4*****/
-		 for(EmpleadoEntity empleado:lista) {
-			 if((empleado.getAlta().compareTo(new Date(2002,12,31)))<0)
+		 Date fecha= new Date("2002/12/31");
+		 System.out.println(fecha);
+		
+		 for(EmpleadoEntity empleado:listaEmp) {
+			 if((empleado.getAlta().compareTo(fecha))>0)
 				 System.out.println(empleado.getNombre()+" - "+ empleado.getAlta());
 		 }
+		 System.out.println();
+		 /****5*****/
+		 Query query= em.createQuery("SELECT e.departamento.nombre, e.nombre "
+		 						   + "FROM  EmpleadoEntity e "
+		 						   + "ORDER BY e.departamento.nombre");
+		 List<Object[]>list=query.getResultList();
+		 for(Object[] o:list) {
+			 System.out.println(o[0]+" - "+ o[1]);
+		 }
+		 System.out.println();
+		 /****6*****/
+		 Query query2= em.createQuery("SELECT  d.departamento.nombre , count(d), sum(d.salario), max(d.salario) "
+		 							+ "FROM  EmpleadoEntity d "
+		 							+ "GROUP BY d.departamento.nombre ");
+		 List<Object[]>list2=query2.getResultList();
+		 for(Object[] o:list2) {
+			 System.out.println(o[0]+" - "+ o[1]+" - "+ o[2]+" - "+ o[3]);
+		 }
+		 System.out.println();
+		 /****7*****/
+		 Query query3= em.createQuery("SELECT  d.departamento.nombre , count(d), sum(d.salario), max(d.salario) "
+		 							+ "FROM  EmpleadoEntity d "
+		 							+ "GROUP BY d.departamento.nombre "
+		 							+ "HAVING count(d)>=5");
+		 List<Object[]>list3=query3.getResultList();
+		 for(Object[] o:list3) {
+			 System.out.println(o[0]+" - "+ o[1]+" - "+ o[2]+" - "+ o[3]);
+		 }
+		 System.out.println();
+		 /****8*****/
+		for(EmpleadoEntity empleado:listaEmp) {
+			if(empleado.getDirId()!=null)		
+			  System.out.println(empleado.getNombre()+" - su jefe es - "+ empleado.getDirId().getNombre()+" - departamento - "+empleado.getDepartamento().getDptoId());
+		 }
+		 System.out.println();
+		 /****9*****/
+			for(DepartamentoEntity departamento:listaDep) {
+				if(departamento.getEmpleados().size()>0)		
+				  System.out.println(departamento.getNombre()+" - "+departamento.getEmpleados().size());
+			}
+			 System.out.println();
+		 /****10*****/
+			for(DepartamentoEntity departamento:listaDep) {		
+				System.out.println(departamento.getNombre()+" - "+departamento.getEmpleados().size());
+			}
+				 System.out.println();
+		 /****11*****/
+			for(DepartamentoEntity departamento:listaDep) {		
+				System.out.println(departamento.getNombre()+" - "+departamento.getEmpleados().size());
+			}
+			 System.out.println();			 
+		 
+		 
+		 
 	}// de demoJPQL
 //--------------------------------------------------------------------------------------------------------------
 	
