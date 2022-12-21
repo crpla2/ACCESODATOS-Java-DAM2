@@ -31,8 +31,16 @@ public class Main2 {
 		
 	//	abd.imprimirDepartamento(10);
 	
-	abd.demoJPQL();
-		
+	//abd.demoJPQL();
+		//Ejercicio9
+		//System.out.println(abd.borraDepartamento(20));
+	//	System.out.println(abd.borrarEmpleado(3054));
+		//System.out.println(abd.incrementarSalarioDepartamento(50,100));
+		//System.out.println(abd.incrementarSalarioV2(100));
+	//	System.out.println(abd.incrementarSalarioOficioV2("Presidente",1000));
+		//System.out.println(abd.incrementarSalarioDepartamentoV2(20,1000));
+	//	System.out.println(abd.borrarEmpleadoV2(1034));
+		System.out.println(abd.borraDepartamentoV2(10));
 		abd.desconectar();
 	
 
