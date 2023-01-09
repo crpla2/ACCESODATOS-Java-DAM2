@@ -33,7 +33,7 @@ public class Resumen {
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Buscar  lista de socios por localidad pasandole una localidad
+	// Devuelve  lista de socios por localidad pasandole una localidad
 	public List<Socio> consulta(String localidad) {
 		try {
 			Query q;
