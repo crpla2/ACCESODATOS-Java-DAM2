@@ -14,8 +14,8 @@ public class Main2 {
 		AccesoBdatos abd = new AccesoBdatos();
 		abd.conectar();
 	//	abd.imprimirDepartamento(90);
-	//	abd.imprimirDepartamento(40);
-	//	abd.imprimirDepartamento(10);
+//		abd.imprimirDepartamento(40);
+//		abd.imprimirDepartamento(10);
 		
     //  System.out.println(abd.insertarDepartamento(new DepartamentoEntity(60,"Recursos Humanos", "Chimillas")));
     //  System.out.println(abd.insertarDepartamento(new DepartamentoEntity(60,"Recursos Humanos", "Chimillas")));
@@ -40,10 +40,9 @@ public class Main2 {
 	//	System.out.println(abd.incrementarSalarioOficioV2("Presidente",1000));
 		//System.out.println(abd.incrementarSalarioDepartamentoV2(20,1000));
 	//	System.out.println(abd.borrarEmpleadoV2(1034));
-		System.out.println(abd.borraDepartamentoV2(10));
+	//	System.out.println(abd.borraDepartamentoV2(40));
 		abd.desconectar();
 	
-
 	}
 
 }
