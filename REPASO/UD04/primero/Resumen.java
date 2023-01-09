@@ -137,9 +137,10 @@ public class Resumen {
 			tx.commit();// COMMIT
 			return 1;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			tx.rollback();
+			return 0;
 		}
-		return 0;
+		
 	}
 
 	// UPDATE
@@ -150,7 +151,21 @@ public class Resumen {
 			tx.commit();// COMMIT
 			return 1;
 		} catch (Exception e) {
-			e.getStackTrace();
+			tx.rollback();
+			return 0;
+		}
+
+	}
+	
+	//SAVE OR UPDATE
+	public int actualizar(Empleados empleado) {
+		try {
+			tx = session.beginTransaction();// INICIO TRANSACCION
+			session.saveOrUpdate(empleado);// ACUALIZACION
+			tx.commit();// COMMIT
+			return 1;
+		} catch (Exception e) {
+			tx.rolback();
 			return 0;
 		}
 
