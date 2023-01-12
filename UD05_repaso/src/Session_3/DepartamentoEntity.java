@@ -1,4 +1,4 @@
-package ejemplo1;
+package Session_3;
 
 import java.util.HashSet;
 import java.util.Set;
