@@ -209,8 +209,15 @@ public class AccesoBdatos {
 		}
 		System.out.println();
 		/**** 11 *****/
-		for (DepartamentoEntity departamento : listaDep) {
-			System.out.println(departamento.getNombre() + " - " + departamento.getEmpleados().size());
+		TypedQuery<Object[]> tq11 = em.createQuery("SELECT d.departamento.dptoId, d.nombre, d.salario FROM EmpleadoEntity d order by d.departamento.dptoId desc, d.salario asc"
+				,
+				Object[].class);
+		List<Object[]> lista = tq11.getResultList();
+		for (Object[] o : lista) {
+			for (Object o2 : o) {
+				System.out.print(o2 + " - ");
+			}
+			System.out.println();
 		}
 		System.out.println();
 		/**** 12 *****/
