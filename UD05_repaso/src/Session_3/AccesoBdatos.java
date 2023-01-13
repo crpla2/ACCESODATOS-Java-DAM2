@@ -17,6 +17,8 @@ import javax.persistence.TypedQuery;
 // Alberto Carrera Mart�n - Abril 2020
 //
 
+
+
 public class AccesoBdatos {
 	private EntityManagerFactory emf;
 	private EntityManager em;
@@ -246,4 +248,140 @@ public class AccesoBdatos {
 				System.out.println(e.getDepartamento().getDptoId() + "-" + e.getDepartamento().getNombre());
 				}
 	}
+	//Ejercicio 9
+		public int incrementarSalario(int cantidad) {
+			try {
+				TypedQuery<EmpleadoEntity> tq = em.createQuery("SELECT e FROM EmpleadoEntity e", EmpleadoEntity.class);
+				List<EmpleadoEntity> li = tq.getResultList();
+				for (EmpleadoEntity e : li) {
+					em.getTransaction().begin();
+					e.setSalario(e.getSalario() + cantidad);
+					em.getTransaction().commit();
+				}
+				return 1;
+			} catch (Exception e) {
+				return 0;
+			}
+
+		}
+		public int incrementarSalarioV2(int cantidad) {
+			Query query =em.createQuery("UPDATE EmpleadoEntity e SET e.salario=(e.salario+ :cant) ");
+			query.setParameter("cant",100);
+			em.getTransaction().begin();
+			int resultado=query.executeUpdate();
+			em.getTransaction().commit();
+			return resultado;
+		}
+
+		public int incrementarSalarioOficio(String oficio, int cantidad) {
+			try {
+				TypedQuery<EmpleadoEntity> tq = em.createQuery("SELECT e FROM EmpleadoEntity e", EmpleadoEntity.class);
+				List<EmpleadoEntity> li = tq.getResultList();
+				for (EmpleadoEntity e : li) {
+					if (e.getOficio().equalsIgnoreCase(oficio)) {
+						em.getTransaction().begin();
+						e.setSalario(e.getSalario() + cantidad);
+						em.getTransaction().commit();
+					}
+				}
+				return 1;
+			} catch (Exception e) {
+				return 0;
+			}
+		}
+		public int incrementarSalarioOficioV2(String oficio,int cantidad) {
+			Query query =em.createQuery("UPDATE EmpleadoEntity e SET e.salario=(e.salario+ :cant) WHERE  e.oficio= :ofi");
+			query.setParameter("cant",cantidad);
+			query.setParameter("ofi",oficio);
+			em.getTransaction().begin();
+			int resultado=query.executeUpdate();
+			em.getTransaction().commit();
+			return resultado;
+		}
+
+		public int incrementarSalarioDepartamento(int numDepartamento, int cantidad) {
+			try {
+				DepartamentoEntity d= em.find(DepartamentoEntity.class, numDepartamento);
+				if (d ==null) throw new Exception();
+				TypedQuery<EmpleadoEntity> tq = em.createQuery("SELECT e FROM EmpleadoEntity e", EmpleadoEntity.class);
+				List<EmpleadoEntity> li = tq.getResultList();
+				for (EmpleadoEntity e : li) {
+					if (e.getDepartamento().getDptoId()==numDepartamento) {
+						em.getTransaction().begin();
+						e.setSalario(e.getSalario() + cantidad);
+						em.getTransaction().commit();
+					}
+				}
+				return 1;
+			} catch (Exception e) {
+				return 0;
+			}
+		}
+		public int incrementarSalarioDepartamentoV2(int numdepartamento,int cantidad) {
+			Query query =em.createQuery("UPDATE EmpleadoEntity e SET e.salario=(e.salario+ :cant) WHERE e.departamento.getDptoId()= :num");
+			query.setParameter("cant",cantidad);
+			query.setParameter("num",numdepartamento);
+			em.getTransaction().begin();
+			int resultado=query.executeUpdate();
+			em.getTransaction().commit();
+			return resultado;
+		}
+
+		public int borrarEmpleado(int numEmpleado) {
+			try {
+				EmpleadoEntity d= em.find(EmpleadoEntity.class, numEmpleado);
+				if (d ==null) throw new Exception();
+				TypedQuery<EmpleadoEntity> tq = em.createQuery("SELECT e FROM EmpleadoEntity e", EmpleadoEntity.class);
+				List<EmpleadoEntity> li = tq.getResultList();
+				for (EmpleadoEntity e : li) {
+					if (e.getEmpnoId()==numEmpleado) {
+						em.getTransaction().begin();
+						em.remove(e);
+						em.getTransaction().commit();
+					}
+				}
+				return 1;
+			} catch (Exception e) {
+				return 0;
+			}
+			
+		}
+		public int borrarEmpleadoV2(int numEmpleado) {
+			Query query=em.createQuery("DELETE  FROM EmpleadoEntity e WHERE e.empnoId= : num");
+			query.setParameter("num", numEmpleado);
+			em.getTransaction().begin();
+			int resultado=query.executeUpdate();
+			em.getTransaction().commit();
+			return resultado;
+			
+		}
+
+		public int borraDepartamento(int numDepartamento) {
+
+			try {
+				DepartamentoEntity d= em.find(DepartamentoEntity.class, numDepartamento);
+				if (d ==null) throw new Exception();
+				TypedQuery<DepartamentoEntity> tq = em.createQuery("SELECT d FROM DepartamentoEntity d", DepartamentoEntity.class);
+				List<DepartamentoEntity> li = tq.getResultList();
+				
+				for (DepartamentoEntity e : li) {
+					if (e.getDptoId()==numDepartamento) {
+						em.getTransaction().begin();
+						em.remove(e);
+						em.getTransaction().commit();
+					}
+				}
+				return 1;
+			} catch (Exception e) {
+				return 0;
+			}
+		}
+		public int borraDepartamentoV2(int numDepartamento) {
+			Query query=em.createQuery("DELETE  FROM DepartamentoEntity e WHERE e.dptoId= : num");
+			query.setParameter("num", numDepartamento);
+			em.getTransaction().begin();
+			int resultado=query.executeUpdate();
+			em.getTransaction().commit();
+			return resultado;
+		}
 } // de la clase
