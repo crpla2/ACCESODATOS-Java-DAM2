@@ -71,7 +71,8 @@ public class AccesoBdatos {
 		System.out.println("Productos distintos: "+productosID.size());
 		System.out.println();
 		
-		TypedQuery<Object[]> tq=em.createQuery("select  s.producto.getNombreCorto() , count(s.tienda), sum(s.unidades) from Stock s group by s.producto.getNombreCorto() order by s.producto.getNombreCorto() ",Object[].class);
+		TypedQuery<Object[]> tq=em.createQuery("select  s.producto.getNombreCorto() , count(s.tienda),"
+				+ " sum(s.unidades) from Stock s group by s.producto.getNombreCorto() order by s.producto.getNombreCorto() ",Object[].class);
 		List<Object[]>listap=tq.getResultList();
 		for(Object[] o:listap) {
 				
