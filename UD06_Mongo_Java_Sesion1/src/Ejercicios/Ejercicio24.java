@@ -44,6 +44,12 @@ public class Ejercicio24 {
 		}
 
 	}
+	private static boolean actualizarCiudad() {
+		
+		
+		return false;
+		
+	}
 
 	private static void listarCiudades() {
 		FindIterable<Document> lista = collection.find();
