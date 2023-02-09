@@ -1,22 +1,14 @@
 package Ejercicios;
-
-import java.util.ArrayList;
 import java.util.TreeSet;
-
 import org.bson.Document;
-
 import com.mongodb.MongoClient;
 import com.mongodb.client.DistinctIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Projections;
-
 public class Ejercicio24 {
 	static MongoClient mongo = new MongoClient("localhost", 27017);
-
 	static MongoDatabase database = mongo.getDatabase("test");
-
 	static MongoCollection<Document> collection = database.getCollection("ciudades");
 
 	public static void main(String[] args) {
@@ -28,16 +20,15 @@ public class Ejercicio24 {
 		c.setLongitude(1.1f);
 		c.setLatitude(0.5f);
 
-		// System.out.println(insertaCiudad(c));
-		// listarCiudades();
-		// listarCiudadesPais("ES");
+		//System.out.println(insertaCiudad(c));
+		 //listarCiudades();
 		//listarCiudadesPais("ES");
-		listarCiudadesPaisV2("ES");
-		//listarPaises();
+		
+		//listarCiudadesPaisV2("ES");
+		listarPaises();
 
 		mongo.close();
 	}
-
 	private static boolean insertaCiudad(Ciudad ciudad) {
 		try {
 			Document document = new Document("name", ciudad.getName()).append("country", ciudad.getCountry())
@@ -59,7 +50,6 @@ public class Ejercicio24 {
 		for (Document d : lista) {
 			System.out.println(d.getString("name"));
 		}
-
 	}
 
 	private static void listarCiudadesPais(String pais) {
