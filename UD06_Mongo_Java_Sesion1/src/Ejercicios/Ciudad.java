@@ -2,7 +2,12 @@ package Ejercicios;
 
 public class Ciudad {
   private String name;
-  private String country;
+  @Override
+public String toString() {
+	return "Ciudad [name=" + name + ", country=" + country + ", timezone=" + timezone + ", population=" + population
+			+ ", longitude=" + longitude + ", latitude=" + latitude + "]";
+}
+private String country;
   private String timezone;
   private long population;
   private float longitude;

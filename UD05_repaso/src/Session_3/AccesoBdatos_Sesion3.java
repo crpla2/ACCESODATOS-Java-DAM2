@@ -1,12 +1,7 @@
 package Session_3;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,7 +14,7 @@ import javax.persistence.TypedQuery;
 
 
 
-public class AccesoBdatos {
+public class AccesoBdatos_Sesion3 {
 	private EntityManagerFactory emf;
 	private EntityManager em;
 

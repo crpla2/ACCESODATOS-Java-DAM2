@@ -131,7 +131,7 @@ public class ConsultaSocio extends JFrame {
 	
 	class OyenteBoton implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			AccesoBdatos abd = new AccesoBdatos();
+			AccesoBdatosSesion4 abd = new AccesoBdatosSesion4();
 			abd.conectar();
 			//ResultSet rs = abd.consultaLocalidad(caja6.getText());
 			List<Socio> rs = abd.consultaLocalidad(caja6.getText());

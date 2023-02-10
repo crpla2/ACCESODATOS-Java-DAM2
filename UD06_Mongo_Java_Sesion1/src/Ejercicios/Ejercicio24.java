@@ -6,6 +6,8 @@ import com.mongodb.client.DistinctIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 public class Ejercicio24 {
 	static MongoClient mongo = new MongoClient("localhost", 27017);
 	static MongoDatabase database = mongo.getDatabase("test");
@@ -20,13 +22,15 @@ public class Ejercicio24 {
 		c.setLongitude(1.1f);
 		c.setLatitude(0.5f);
 
-		//System.out.println(insertaCiudad(c));
+	//System.out.println(insertaCiudad(c));
 		 //listarCiudades();
 		//listarCiudadesPais("ES");
 		
 		//listarCiudadesPaisV2("ES");
-		listarPaises();
-
+		//listarPaises();
+		//System.out.println(actualizarCiudades("ES","ESP"));
+		//System.out.println(borrarCiudad("Montmesa"));
+		System.out.println(buscarCiudad("Montmesa","ES"));
 		mongo.close();
 	}
 	private static boolean insertaCiudad(Ciudad ciudad) {
@@ -44,11 +48,40 @@ public class Ejercicio24 {
 		}
 
 	}
-	private static boolean actualizarCiudad() {
+	private static boolean actualizarCiudades(String pais,String cambio) {
 		
+		try {
+			collection.updateMany(Filters.eq("country",pais), Updates.set("country",cambio));
+			return true;
+		}catch (Exception e) {
+			return false;
+		}		
 		
-		return false;
+	}
+	
+	private static boolean borrarCiudad(String nombre) {
+		try {
+			collection.deleteOne(Filters.eq("name",nombre));
+			
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	private static Ciudad buscarCiudad(String nombre,String pais) {
+		Ciudad c= new Ciudad();
+		Document d=collection.find(new Document("name", nombre).append("country", pais)).first();
 		
+		c.setCountry(d.getString("country"));
+		c.setName(d.getString("name"));
+		c.setPopulation(d.getLong("population"));
+		c.setTimezone(d.getString("timezone"));
+		Document loc=(Document) d.get("location");
+		c.setLongitude(Float.parseFloat(String.valueOf(loc.getDouble("longitude"))));
+		c.setLatitude(Float.parseFloat(String.valueOf(loc.getDouble("latitude"))));
+		
+		return c;
 	}
 
 	private static void listarCiudades() {

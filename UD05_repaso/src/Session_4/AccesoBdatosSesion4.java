@@ -12,7 +12,7 @@ import javax.persistence.TypedQuery;
 
 
 
-public class AccesoBdatos {
+public class AccesoBdatosSesion4 {
 
 	//IMPLEMENTANDO OBJECTDB
 	private EntityManagerFactory emf;
