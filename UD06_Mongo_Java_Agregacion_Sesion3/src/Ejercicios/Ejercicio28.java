@@ -1,5 +1,6 @@
 package Ejercicios;
 
+import java.nio.file.DirectoryStream.Filter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,9 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
 
 public class Ejercicio28 {
 
@@ -24,6 +28,7 @@ public class Ejercicio28 {
 		collection = database.getCollection("ciudades");
 		
 		//Array para el divide
+		
 //		BsonArray array= new BsonArray();
 //		array.add(new BsonString("$pop"));
 //		array.add(new BsonString("$total"));
@@ -42,7 +47,7 @@ public class Ejercicio28 {
 				.append("ratio",new Document("$divide",array)));
 		Document sort= new Document("$sort", new Document("ratio",-1));
 		
-		
+				
 		List<Document> productostAggregationQuery = new ArrayList<>();
 		productostAggregationQuery.add(group);
 		productostAggregationQuery.add(project);
@@ -53,6 +58,7 @@ public class Ejercicio28 {
 		for(Document d:lista) {
 			System.out.println(d);
 		}
+		
 		
 		
 		
